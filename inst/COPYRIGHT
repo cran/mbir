@@ -1,0 +1,15 @@
+This R package is copyright KD Peterson with the exception of the following:
+
+Functionalities within (corr, odds, smd, smd_test, corr_test) functions are based off:
+
+Hopkins WG. (2007). A spreadsheet for deriving a confidence interval, mechanistic inference and clinical inference from a p value. Sportscience 11, 16-20. sportsci.org/2007/wghinf.htm. Whom is copyright WG Hopkins.
+
+
+Functionalities within swc_ind function is based off:
+
+Hopkins WG. (2017). A spreadsheet for monitoring an individual's changes and trend. Sportscience 21, 5-9. sportsci.org/2017/wghtrend.htm. Whom is copyright WG Hopkins.
+
+
+Functionalities within (ss_corr, ss_odds, ss_smd) functions are based off:
+
+Hopkins WG. (2006). Estimating sample size for magnitude-based inferences. Sportscience 10, 63-70. sportsci.org/2006/wghss.htm. Whom is copyright WG Hopkins.
