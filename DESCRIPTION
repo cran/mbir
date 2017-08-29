@@ -1,8 +1,8 @@
 Package: mbir
 Type: Package
 Title: Magnitude-Based Inferences
-Version: 1.0
-Date: 2017-08-12
+Version: 1.1
+Date: 2017-08-29
 Authors@R: c(person("Kyle", "Peterson", 
                      email = "petersonkdon@gmail.com",
                      role = c("aut", "cre")))
@@ -19,7 +19,7 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-08-13 21:25:05 UTC; Admin
+Packaged: 2017-08-29 21:11:19 UTC; Admin
 Author: Kyle Peterson [aut, cre]
 Repository: CRAN
-Date/Publication: 2017-08-14 08:51:20 UTC
+Date/Publication: 2017-08-29 21:19:58 UTC

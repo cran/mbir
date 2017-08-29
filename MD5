@@ -1,4 +1,4 @@
-ce56044cdb2761170631efe999e0bfec *DESCRIPTION
+3fdc92ddfbd6c1aa6fe7e562c9e552b1 *DESCRIPTION
 2d80622dddb94ba224d801ae5322d0a5 *NAMESPACE
 78985fc815c02cc57b7de2ccee069d6b *R/aipe_smd.R
 5369ceaa691aeeda48c0179d07df67a0 *R/boot_test.R
@@ -13,12 +13,12 @@ b45601cb18bfc37a5103d1c1ae0de92a *R/smd_test.R
 1235f39c92a078c3f0f0ac9000e793b1 *R/ss_corr.R
 dede80748e531cc32e4f1ec994783c48 *R/ss_odds.R
 626c5a146057c5928cb5e3670e19991d *R/ss_smd.R
-7bc42def52ba99d6096042d101ccb5ee *R/swc_ind.R
+1c49ced554cef5a041a72a77de9db657 *R/swc_ind.R
 4ebbc10ca98507804305266877b695e0 *build/vignette.rds
 ff4fc44a8c455793550bb23af8c39923 *inst/COPYRIGHT
 09ba9df5b1d49931ab9b77590812001e *inst/doc/mbir-vignette.R
 7fa8255c237dc25abc3b41ab2601ffde *inst/doc/mbir-vignette.Rmd
-dbfc20c127f272242ead6543f3224231 *inst/doc/mbir-vignette.html
+242e54bcc8420db3ce66009a0ca62790 *inst/doc/mbir-vignette.html
 b0d7b0b03063e282ed21712783de2577 *man/aipe_smd.Rd
 e570075abc60b0aa803dfab3fc45dc79 *man/boot_test.Rd
 eb350c3941d94fa47734cbf75e483497 *man/corr.Rd

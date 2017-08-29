@@ -116,7 +116,7 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
     triv<-100-pos-neg
 
   mbi<-ifelse(pos > 10 & neg > 10,"---",
-              ifelse(pos <= 10 & neg <= neg,"Trivial",
+              ifelse(pos <= 10 & neg <= 10,"Trivial",
               ifelse(neg > 10 & triv >= 10,"Possible Decrease",
                      ifelse(pos > 10 & triv >= 10,"Possibe Increase",
                             ifelse(pos < 90 & triv < 10 & neg < 10,"Likely Increase",
@@ -194,6 +194,8 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
 
 
   triv2<-round(100-pos2-neg2,digits = 1)
+  neg2<-ifelse(triv2 < 0,abs(triv2),neg2)
+  triv2<-round(100-pos2-neg2,0)
 
 
   decrease<-ifelse(neg2 < 10,"Very Unlikely",
