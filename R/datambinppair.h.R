@@ -7,7 +7,7 @@ dataMBInppairOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
     public = list(
         initialize = function(
             pairs = NULL,
-            SESOI = 0.5,
+            SWC = 0.5,
             confint = 90,
             desc = FALSE, ...) {
 
@@ -26,9 +26,9 @@ dataMBInppairOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                     "continuous",
                     "nominal",
                     "ordinal"))
-            private$..SESOI <- jmvcore::OptionNumber$new(
-                "SESOI",
-                SESOI,
+            private$..SWC <- jmvcore::OptionNumber$new(
+                "SWC",
+                SWC,
                 min=0,
                 default=0.5)
             private$..confint <- jmvcore::OptionNumber$new(
@@ -43,18 +43,18 @@ dataMBInppairOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 default=FALSE)
 
             self$.addOption(private$..pairs)
-            self$.addOption(private$..SESOI)
+            self$.addOption(private$..SWC)
             self$.addOption(private$..confint)
             self$.addOption(private$..desc)
         }),
     active = list(
         pairs = function() private$..pairs$value,
-        SESOI = function() private$..SESOI$value,
+        SWC = function() private$..SWC$value,
         confint = function() private$..confint$value,
         desc = function() private$..desc$value),
     private = list(
         ..pairs = NA,
-        ..SESOI = NA,
+        ..SWC = NA,
         ..confint = NA,
         ..desc = NA)
 )
@@ -85,7 +85,7 @@ dataMBInppairResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -111,7 +111,7 @@ dataMBInppairResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -144,7 +144,7 @@ dataMBInppairResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -300,7 +300,7 @@ dataMBInppairBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param data the data as a data frame
 #' @param pairs a list of vectors of strings naming variables to pair from
 #'   \code{data}
-#' @param SESOI a number that defines the bounds for magnitude-based inference
+#' @param SWC a number that defines the bounds for magnitude-based inference
 #' @param confint 90\% (default), confidence interval for magnitude-based
 #'   inference
 #' @param desc \code{TRUE} or \code{FALSE} (default), provide descriptive
@@ -324,7 +324,7 @@ dataMBInppairBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 dataMBInppair <- function(
     data,
     pairs,
-    SESOI = 0.5,
+    SWC = 0.5,
     confint = 90,
     desc = FALSE) {
 
@@ -333,7 +333,7 @@ dataMBInppair <- function(
 
     options <- dataMBInppairOptions$new(
         pairs = pairs,
-        SESOI = SESOI,
+        SWC = SWC,
         confint = confint,
         desc = desc)
 

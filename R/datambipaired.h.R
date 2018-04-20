@@ -8,7 +8,7 @@ dataMBIpairedOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         initialize = function(
             pairs = NULL,
             correl = TRUE,
-            SESOI = 0.5,
+            SWC = 0.5,
             confint = 90,
             desc = FALSE, ...) {
 
@@ -31,9 +31,9 @@ dataMBIpairedOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "correl",
                 correl,
                 default=TRUE)
-            private$..SESOI <- jmvcore::OptionNumber$new(
-                "SESOI",
-                SESOI,
+            private$..SWC <- jmvcore::OptionNumber$new(
+                "SWC",
+                SWC,
                 min=0,
                 default=0.5)
             private$..confint <- jmvcore::OptionNumber$new(
@@ -49,20 +49,20 @@ dataMBIpairedOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
 
             self$.addOption(private$..pairs)
             self$.addOption(private$..correl)
-            self$.addOption(private$..SESOI)
+            self$.addOption(private$..SWC)
             self$.addOption(private$..confint)
             self$.addOption(private$..desc)
         }),
     active = list(
         pairs = function() private$..pairs$value,
         correl = function() private$..correl$value,
-        SESOI = function() private$..SESOI$value,
+        SWC = function() private$..SWC$value,
         confint = function() private$..confint$value,
         desc = function() private$..desc$value),
     private = list(
         ..pairs = NA,
         ..correl = NA,
-        ..SESOI = NA,
+        ..SWC = NA,
         ..confint = NA,
         ..desc = NA)
 )
@@ -93,7 +93,7 @@ dataMBIpairedResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -122,7 +122,7 @@ dataMBIpairedResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -173,7 +173,7 @@ dataMBIpairedResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -335,7 +335,7 @@ dataMBIpairedBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #'   \code{data}
 #' @param correl \code{TRUE} (default) or \code{FALSE} , corrects the
 #'   standardized effect size for correlation between measurements
-#' @param SESOI a number that defines the bounds for magnitude-based inference
+#' @param SWC a number that defines the bounds for magnitude-based inference
 #' @param confint 90\% (default), confidence interval for magnitude-based
 #'   inference
 #' @param desc \code{TRUE} or \code{FALSE} (default), provide descriptive
@@ -360,7 +360,7 @@ dataMBIpaired <- function(
     data,
     pairs,
     correl = TRUE,
-    SESOI = 0.5,
+    SWC = 0.5,
     confint = 90,
     desc = FALSE) {
 
@@ -370,7 +370,7 @@ dataMBIpaired <- function(
     options <- dataMBIpairedOptions$new(
         pairs = pairs,
         correl = correl,
-        SESOI = SESOI,
+        SWC = SWC,
         confint = confint,
         desc = desc)
 

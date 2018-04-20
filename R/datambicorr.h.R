@@ -10,7 +10,7 @@ dataMBIcorrOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             pearson = TRUE,
             spear = FALSE,
             kendall = FALSE,
-            SESOI = 0.1,
+            SWC = 0.1,
             confint = 90,
             desc = FALSE, ...) {
 
@@ -41,9 +41,9 @@ dataMBIcorrOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "kendall",
                 kendall,
                 default=FALSE)
-            private$..SESOI <- jmvcore::OptionNumber$new(
-                "SESOI",
-                SESOI,
+            private$..SWC <- jmvcore::OptionNumber$new(
+                "SWC",
+                SWC,
                 min=0.01,
                 max=0.9,
                 default=0.1)
@@ -62,7 +62,7 @@ dataMBIcorrOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..pearson)
             self$.addOption(private$..spear)
             self$.addOption(private$..kendall)
-            self$.addOption(private$..SESOI)
+            self$.addOption(private$..SWC)
             self$.addOption(private$..confint)
             self$.addOption(private$..desc)
         }),
@@ -71,7 +71,7 @@ dataMBIcorrOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         pearson = function() private$..pearson$value,
         spear = function() private$..spear$value,
         kendall = function() private$..kendall$value,
-        SESOI = function() private$..SESOI$value,
+        SWC = function() private$..SWC$value,
         confint = function() private$..confint$value,
         desc = function() private$..desc$value),
     private = list(
@@ -79,7 +79,7 @@ dataMBIcorrOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         ..pearson = NA,
         ..spear = NA,
         ..kendall = NA,
-        ..SESOI = NA,
+        ..SWC = NA,
         ..confint = NA,
         ..desc = NA)
 )
@@ -108,7 +108,7 @@ dataMBIcorrResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(pairs)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="i1", 
@@ -341,7 +341,7 @@ dataMBIcorrBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param spear \code{TRUE} or \code{FALSE} (default), provide Spearman's rho
 #' @param kendall \code{TRUE} or \code{FALSE} (default), provide Kendall's
 #'   tau-b
-#' @param SESOI a number, default (r=0.1) that defines the bounds for
+#' @param SWC a number, default (r=0.1) that defines the bounds for
 #'   magnitude-based inference
 #' @param confint 90\% (default), confidence interval for magnitude-based
 #'   inference
@@ -367,7 +367,7 @@ dataMBIcorr <- function(
     pearson = TRUE,
     spear = FALSE,
     kendall = FALSE,
-    SESOI = 0.1,
+    SWC = 0.1,
     confint = 90,
     desc = FALSE) {
 
@@ -379,7 +379,7 @@ dataMBIcorr <- function(
         pearson = pearson,
         spear = spear,
         kendall = kendall,
-        SESOI = SESOI,
+        SWC = SWC,
         confint = confint,
         desc = desc)
 

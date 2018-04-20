@@ -9,7 +9,7 @@ dataMBItwoOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             deps = NULL,
             group = NULL,
             varEq = TRUE,
-            SESOI = 0.5,
+            SWC = 0.5,
             confint = 90,
             desc = FALSE, ...) {
 
@@ -39,9 +39,9 @@ dataMBItwoOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
                 "varEq",
                 varEq,
                 default=TRUE)
-            private$..SESOI <- jmvcore::OptionNumber$new(
-                "SESOI",
-                SESOI,
+            private$..SWC <- jmvcore::OptionNumber$new(
+                "SWC",
+                SWC,
                 min=0,
                 default=0.5)
             private$..confint <- jmvcore::OptionNumber$new(
@@ -58,7 +58,7 @@ dataMBItwoOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
             self$.addOption(private$..deps)
             self$.addOption(private$..group)
             self$.addOption(private$..varEq)
-            self$.addOption(private$..SESOI)
+            self$.addOption(private$..SWC)
             self$.addOption(private$..confint)
             self$.addOption(private$..desc)
         }),
@@ -66,14 +66,14 @@ dataMBItwoOptions <- if (requireNamespace('jmvcore')) R6::R6Class(
         deps = function() private$..deps$value,
         group = function() private$..group$value,
         varEq = function() private$..varEq$value,
-        SESOI = function() private$..SESOI$value,
+        SWC = function() private$..SWC$value,
         confint = function() private$..confint$value,
         desc = function() private$..desc$value),
     private = list(
         ..deps = NA,
         ..group = NA,
         ..varEq = NA,
-        ..SESOI = NA,
+        ..SWC = NA,
         ..confint = NA,
         ..desc = NA)
 )
@@ -125,7 +125,7 @@ dataMBItwoResults <- if (requireNamespace('jmvcore')) R6::R6Class(
                 rows="(deps)",
                 clearWith=list(
                     "confint",
-                    "SESOI"),
+                    "SWC"),
                 columns=list(
                     list(
                         `name`="var", 
@@ -321,7 +321,7 @@ dataMBItwoBase <- if (requireNamespace('jmvcore')) R6::R6Class(
 #' @param deps a vector of strings naming the dependent variables
 #' @param group a string naming the grouping variable, must have 2 levels
 #' @param varEq \code{TRUE} or \code{FALSE} (default), assume equal variances
-#' @param SESOI a number that defines the bounds for magnitude-based inference
+#' @param SWC a number that defines the bounds for magnitude-based inference
 #' @param confint 90\% (default) confidence intervals for effect sizes
 #' @param desc \code{TRUE} or \code{FALSE} (default), provide descriptive
 #'   statistics
@@ -346,7 +346,7 @@ dataMBItwo <- function(
     deps,
     group,
     varEq = TRUE,
-    SESOI = 0.5,
+    SWC = 0.5,
     confint = 90,
     desc = FALSE) {
 
@@ -357,7 +357,7 @@ dataMBItwo <- function(
         deps = deps,
         group = group,
         varEq = varEq,
-        SESOI = SESOI,
+        SWC = SWC,
         confint = confint,
         desc = desc)
 
