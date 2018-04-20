@@ -1,0 +1,117 @@
+---
+name:  dataMBItwo
+title: MBI for Independent Samples 
+menuGroup: mbir
+version: '1.0.0'
+jas: '1.1'
+
+description:
+  R:
+      usage: |
+
+        data('bugs', package = 'jmv')
+
+        mbir::dataMBItwo(
+            data = bugs,
+            deps = "LDLF",
+            group = "Gender")
+
+        #
+        #  Independent Samples T-Test      
+        #  ─────────────────────────────── 
+        #            t       df    p       
+        #  ─────────────────────────────── 
+        #    LDLF    1.47    60    0.147   
+        #  ─────────────────────────────── 
+        #    Note. Welch's, unequal
+        #    variances, t-test
+        # 
+        # 
+
+        #
+        #  Effect Size                                                                                    
+        #  ────────────────────────────────────────────────────────────────────────────────────────────── 
+        #            Mean Difference    Lower     Upper                 Effect Size    Lower      Upper   
+        #  ────────────────────────────────────────────────────────────────────────────────────────────── 
+        #    LDLF              0.857    -0.309     2.02    Cohen's d          0.330    -0.0450    0.705   
+        #  ────────────────────────────────────────────────────────────────────────────────────────────── 
+        # 
+        # 
+
+        #       
+        #  Magnitude Based Inference                                               
+        #  ─────────────────────────────────────────────────────────────────────── 
+        #            Negative    Trivial    Positive    Inference                  
+        #  ─────────────────────────────────────────────────────────────────────── 
+        #    LDLF        0.00       77.4        22.6    Likely Trivial Increase.   
+        #  ─────────────────────────────────────────────────────────────────────── 
+        # 
+        # 
+
+
+
+completeWhenFilled: true
+
+options:
+  - name: data
+    type: Data
+    description:
+        R: the data as a data frame
+          
+  - name: deps                  
+    title: Dependent Variables  
+    type: Variables 
+    suggested:
+      - continuous
+    permitted:
+      - continuous
+      - nominal
+      - ordinal
+    rejectInf: false
+    description:
+        R: a vector of strings naming the dependent variables    
+
+  - name: group
+    title: Grouping Variable
+    type: Variable
+    suggested:
+      - nominal
+      - ordinal
+    description:
+        R: a string naming the grouping variable, must have 2 levels
+
+  - name: varEq
+    title: Assume equal variances
+    type: Bool
+    default: true
+    description:
+        R: >
+          `TRUE` or `FALSE` (default), assume equal variances
+
+  - name: SESOI
+    title: Smallest worthwhile difference (Effect Size)
+    type: Number
+    min: 0
+    default: 0.5
+    description:
+        R: a number that defines the bounds for magnitude-based inference
+
+  - name: confint
+    title: Confidence Interval (%)
+    type: Number
+    min: 50.0
+    max: 99.9
+    default: 90
+    description:
+        R: >
+          90% (default) confidence intervals for effect sizes
+    
+  - name: desc
+    title: Descriptive statistics
+    type: Bool
+    default: false
+    description:
+        R: >
+          `TRUE` or `FALSE` (default), provide descriptive statistics    
+    
+...

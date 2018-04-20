@@ -1,0 +1,103 @@
+---
+name:  dataMBIpaired
+title: MBI for Paired Samples
+menuGroup: mbir
+version: '1.0.0'
+jas: '1.1'
+
+description:
+  R:
+      usage: |
+          # MBI for Paired Samples
+
+          data('bugs', package = 'jmv')
+          
+          mbir::dataMBIpaired(
+            data = bugs,
+            pairs = list(
+              list(
+                i1="LDLF",
+                i2="LDHF")))
+          
+          
+          
+          #
+          #  Paired Samples T-Test                     
+          #  ───────────────────────────────────────── 
+          #                    t        df    p        
+          #  ───────────────────────────────────────── 
+          #    LDLF    LDHF    -6.65    90    < .001   
+          #  ───────────────────────────────────────── 
+          # 
+          # 
+          
+          #
+          #  Effect Size                                                                                           
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────── 
+          #                    Mean Difference    Lower    Upper                 Effect Size    Lower     Upper    
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────── 
+          #    LDLF    LDHF              -1.66    -2.08    -1.25    Cohen's d         -0.641    -0.802    -0.481   
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────── 
+          # 
+          # 
+          
+          #
+          #  Magnitude Based Inference                                                        
+          #  ──────────────────────────────────────────────────────────────────────────────── 
+          #                    Negative    Trivial    Positive    Inference                   
+          #  ──────────────────────────────────────────────────────────────────────────────── 
+          #    LDLF    LDHF        92.7       7.30        0.00    Likely Moderate Decrease.   
+          #  ──────────────────────────────────────────────────────────────────────────────── 
+          # 
+          # 
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: the data as a data frame
+
+    - name: pairs
+      title: Paired Variables
+      type: Pairs
+      suggested: [continuous]
+      permitted: [continuous, nominal, ordinal]
+      description:
+          R: a list of vectors of strings naming variables to pair from `data`
+
+    - name: correl
+      title: "Apply correction for correlation between the measurements? (Lakens, 2013)"
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE` , corrects the standardized effect size for correlation between measurements
+      
+    - name: SWC
+      title: Smallest worthwhile change (Effect Size)
+      type: Number
+      min: 0
+      default: 0.5
+      description:
+          R: a number that defines the bounds for magnitude-based inference
+
+    - name: confint
+      title: Confidence Interval (%)
+      type: Number
+      min: 50.0
+      max: 99.9
+      default: 90
+      description:
+          R: >
+            90% (default), confidence interval for magnitude-based inference
+    
+    - name: desc
+      title: Descriptive statistics
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide descriptive statistics
+      
+
+...

@@ -1,0 +1,99 @@
+---
+name:  dataMBIcorr
+title: MBI for Correlation
+menuGroup: mbir
+version: '1.0.0'
+jas: '1.1'
+
+description:
+  R:
+      usage: |
+      
+          data('bugs', package = 'jmv')
+
+          mbir::dataMBIcorr(
+              data = data,
+              pairs = list(
+                  list(
+                      i1="LDLF",
+                      i2="LDHF")))
+          
+          #
+          #  Magnitude Based Inference: Correlation                                                                                                            
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+          #                                            p         Negative (%)    Trivial (%)    Positive (%)    Inference                                      
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+          #    LDLF    LDHF    Pearson's r    0.577    < .001            0.00           0.00             100    Almost Certainly Large Positive Correlation.   
+          #  ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── 
+          # 
+          # 
+
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: the data as a data frame
+
+    - name: pairs
+      title: Paired Variables
+      type: Pairs
+      suggested: [continuous]
+      permitted: [continuous, nominal, ordinal]
+      description:
+          R: a list of vectors of strings naming variables to pair from `data`
+          
+
+    - name: pearson
+      title: Pearson
+      type: Bool
+      default: true
+      description:
+          R: >
+            `TRUE` (default) or `FALSE`, provide Pearson's R
+
+    - name: spear
+      title: Spearman
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide Spearman's rho
+
+    - name: kendall
+      title: Kendall's
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide Kendall's tau-b
+    
+    - name: SWC
+      title: Threshold Bound (correlation coefficient)
+      type: Number
+      min: 0.01
+      max: 0.9
+      default: 0.1
+      description:
+          R: >
+            a number, default (r=0.1) that defines the bounds for magnitude-based inference
+
+    - name: confint
+      title: Confidence Interval (%)
+      type: Number
+      min: 50.0
+      max: 99.9
+      default: 90
+      description:
+          R: >
+            90% (default), confidence interval for magnitude-based inference
+            
+    - name: desc
+      title: Descriptive statistics
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide descriptive statistics
+
+...

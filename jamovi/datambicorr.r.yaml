@@ -1,0 +1,198 @@
+---
+name:  dataMBIcorr
+title: MBI for Correlation
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: MBI for Correlation
+      type:  Preformatted
+    
+    - name: mbi
+      title: "Magnitude Based Inference: Correlation"
+      type:  Table
+      rows: (pairs)
+      clearWith:
+        - confint
+        - SWC
+      columns:
+        - name: i1
+          title: ''
+          type: text
+          content: ($key)
+        - name: i2
+          title: ''
+          type: text
+          content: ($key)
+        - name: b[0]
+          title: ''
+          type: text
+          content: Pearson's r
+          visible: (pearson)
+        - name: correl[0]
+          title: ""
+          type: Number
+          visible: (pearson)
+        - name: p[0]
+          title: "p"
+          type: Number
+          format: zto,pvalue
+          visible: (pearson)
+        #- name: z[0]
+        #  title: "Fisher's z"
+        #  type: Number
+        #  visible: (pearson)
+        #- name: zSE[0]
+        #  title: "+/- SE"
+        #  type: Number
+        #  visible: (pearson)
+        - name: Negative[0]
+          type: Number
+          title: Negative (%)
+          visible: (pearson)
+        - name: Trivial[0]
+          type: Number
+          title: Trivial (%)
+          visible: (pearson)
+        - name: Positive[0]
+          type: Number
+          title: Positive (%)
+          visible: (pearson)
+        - name: Inference[0]
+          title: Inference
+          type: text 
+          visible: (pearson)
+        - name: b[1]
+          title: ''
+          type: text
+          content: Spearman's rho
+          visible: (spear)
+        - name: correl[1]
+          title: ""
+          type: Number
+          visible: (spear)
+        - name: p[1]
+          title: "p"
+          type: Number
+          format: zto,pvalue
+          visible: (spear)
+        #- name: z[1]
+        #  title: "Fisher's z"
+        #  type: Number
+        #  visible: (spear)
+        #- name: zSE[1]
+        #  title: "+/- SE"
+        #  type: Number
+        #  visible: (spear)
+        - name: Negative[1]
+          type: Number
+          title: Negative (%)
+          visible: (spear)
+        - name: Trivial[1]
+          type: Number
+          title: Trivial (%)
+          visible: (spear)
+        - name: Positive[1]
+          type: Number
+          title: Positive (%)
+          visible: (spear)
+        - name: Inference[1]
+          title: Inference
+          type: text 
+          visible: (spear)
+        - name: b[2]
+          title: ''
+          type: text
+          content: Kendall's tau-b
+          visible: (kendall)
+        - name: correl[2]
+          title: ""
+          type: Number
+          visible: (kendall)
+        - name: p[2]
+          title: "p"
+          type: Number
+          format: zto,pvalue
+          visible: (kendall)
+        #- name: z[2]
+        #  title: "Fisher's z"
+        #  type: Number
+        #  visible: (kendall)
+        #- name: zSE[2]
+        #  title: "+/- SE"
+        #  type: Number
+        #  visible: (kendall)
+        - name: Negative[2]
+          type: Number
+          title: Negative (%)
+          visible: (kendall)
+        - name: Trivial[2]
+          type: Number
+          title: Trivial (%)
+          visible: (kendall)
+        - name: Positive[2]
+          type: Number
+          title: Positive (%)
+          visible: (kendall)
+        - name: Inference[2]
+          title: Inference
+          type: text 
+          visible: (kendall)
+          
+    - name:   desc
+      title: Descriptives
+      type: Table
+      visible: (desc)
+      rows: (pairs)
+      clearWith:
+        - group
+        
+      columns:
+        - name: name[1]
+          title: ""
+          type: text
+          
+        - name: n[1]
+          title: "N"
+          type: integer
+          
+        - name: m[1]
+          title: Mean
+          type: number
+          
+        - name: med[1]
+          title: Median
+          type: number
+          
+        - name: sd[1]
+          title: SD
+          type: number
+          
+        - name: se[1]
+          title: SE
+          type: number
+          
+        - name: name[2]
+          title: ""
+          type: text
+          
+        - name: n[2]
+          title: "N"
+          type: integer
+          
+        - name: m[2]
+          title: Mean
+          type: number
+          
+        - name: med[2]
+          title: Median
+          type: number
+          
+        - name: sd[2]
+          title: SD
+          type: number
+          
+        - name: se[2]
+          title: SE
+          type: number
+...

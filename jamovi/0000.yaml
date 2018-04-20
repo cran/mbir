@@ -1,0 +1,46 @@
+---
+title: mbir - Magnitude Based Inference
+name: mbir
+version: 0.0.1
+jms: '1.0'
+authors:
+  - Aaron Caldwell & Kyle Peterson
+maintainer: Aaron R Caldwell <arcaldwell49@gmail.com>
+date: '2018-04-09'
+type: R
+description: >-
+  This jamovi module allows practitioners and researchers a wholesale approach for
+  deriving magnitude-based inferences from raw data in a point-and-click
+  fashion.
+analyses:
+  - title: MBI for Independent Samples
+    name: dataMBItwo
+    ns: mbir
+    menuGroup: mbir
+    menuTitle: MBI for Independent Samples
+  - title: MBI for Paired Samples
+    name: dataMBIpaired
+    ns: mbir
+    menuGroup: mbir
+    menuTitle: MBI for Paired Samples
+  - title: MBI for Correlation
+    name: dataMBIcorr
+    ns: mbir
+    menuGroup: mbir
+    menuTitle: MBI for Correlation
+  - title: MBI for Independent Samples (non-parametric)
+    name: dataMBInpind
+    ns: mbir
+    menuGroup: mbir
+    menuTitle: MBI for Independent Samples
+    menuSubgroup: Non-Parametric
+    menuSubtitle: Mann-Whitney U test
+  - title: MBI for Paired Samples (non-parametric)
+    name: dataMBInppair
+    ns: mbir
+    menuGroup: mbir
+    menuTitle: MBI for Paired Samples
+    menuSubgroup: Non-Parametric
+    menuSubtitle: Wilcoxon signed-rank test
+
+...
