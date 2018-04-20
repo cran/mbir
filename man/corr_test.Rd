@@ -4,12 +4,21 @@
 \alias{corr_test}
 \title{Correlation Coefficient Test}
 \usage{
-corr_test(x, y, conf.int)
+corr_test(x, y, conf.int = 0.9, auto = TRUE, method = "pearson",
+  SESOI = 0.1, plot = FALSE)
 }
 \arguments{
 \item{x, y}{numeric vectors of data values}
 
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
+
+\item{auto}{(character) logical indicator specifying if user wants function to programmatically detect statistical procedures. Defaults to \code{TRUE}}
+
+\item{method}{(character) if \code{auto = F}, logical indicator specifying which correlation to execute (\code{pearson, spearman, kendall}). Defaults to \code{"pearson"}.}
+
+\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
+
+\item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }
 \value{
 Associated effect size measure, \emph{r}, and respective confidence intervals.

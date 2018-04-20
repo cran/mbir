@@ -1,11 +1,12 @@
 Package: mbir
 Type: Package
 Title: Magnitude-Based Inferences
-Version: 1.1
-Date: 2017-08-29
+Version: 1.2
+Date: 2018-04-16
 Authors@R: c(person("Kyle", "Peterson", 
                      email = "petersonkdon@gmail.com",
-                     role = c("aut", "cre")))
+                     role = c("aut", "cre")),
+             person("Aaron", "Caldwell", role = "aut"))
 Maintainer: Kyle Peterson <petersonkdon@gmail.com>
 Description: Allows practitioners and researchers a wholesale approach for deriving magnitude-based inferences from raw data. A major goal of 'mbir' is to programmatically detect appropriate statistical tests to run in lieu of relying on practitioners to determine correct stepwise procedures independently.
 Imports: graphics, stats, utils
@@ -19,7 +20,8 @@ RoxygenNote: 6.0.1
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr
 NeedsCompilation: no
-Packaged: 2017-08-29 21:11:19 UTC; Admin
-Author: Kyle Peterson [aut, cre]
+Packaged: 2018-04-20 01:27:38 UTC; Admin
+Author: Kyle Peterson [aut, cre],
+  Aaron Caldwell [aut]
 Repository: CRAN
-Date/Publication: 2017-08-29 21:19:58 UTC
+Date/Publication: 2018-04-20 03:34:23 UTC

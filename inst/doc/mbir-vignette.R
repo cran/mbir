@@ -11,7 +11,7 @@ graphics::hist(then, col='gray', border='white', las=1, xlab = "2007", main = " 
 graphics::hist(now, col='gray', border='white', las=1, xlab = "2017", main = " ",ylab = " ")
 
 ## ------------------------------------------------------------------------
-mbir::smd_test(x = now, y = then, paired = FALSE)
+mbir::smd_test(x = now, y = then, paired = FALSE, auto = T)
 
 ## ----echo=FALSE----------------------------------------------------------
 pre<-c(2, 1, 1, 4, 1, 1, 9, 1, 2, 2, 2, 3, 3, 2, 1, 1, 1, 1, 2, 1, 2, 1, 1, 3, 1)
@@ -24,7 +24,7 @@ graphics::hist(post, col='gray', border='white', las=1, xlab = "Post-Test", main
 
 ## ------------------------------------------------------------------------
 # Named a variable "mag" for later use within vignette
-mag<-mbir::smd_test(post, pre, paired = T)
+mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 
 ## ------------------------------------------------------------------------
 mbir::smd(es = 0.7, p = 0.02, df = 24)
@@ -80,7 +80,7 @@ mbir::es_convert(0.2, from = "r", to = "or")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  # Section 1.1. pre-test post-test 40 yard dash example:
-#  mag<-mbir::smd_test(post, pre, paired = T)
+#  mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 
 ## ------------------------------------------------------------------------
 # Wish to convert given Odds Ratio to Cohen's d:

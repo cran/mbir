@@ -4,7 +4,7 @@
 \alias{smd}
 \title{Standardized Mean Difference}
 \usage{
-smd(es, p, df, conf.int)
+smd(es, p, df, conf.int = 0.9, SESOI = 0.5, plot = FALSE)
 }
 \arguments{
 \item{es}{effect size measure (Cohen's \emph{d})}
@@ -14,6 +14,10 @@ smd(es, p, df, conf.int)
 \item{df}{associated degrees of freedom from t-statistic}
 
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
+
+\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.5}}
+
+\item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }
 \description{
 Provides magnitude-based inferences upon given \emph{d}, \emph{p}-value, and degrees of freedom. Based upon WG Hopkins Microsoft Excel spreadsheet.

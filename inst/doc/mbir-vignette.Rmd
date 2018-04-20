@@ -1,6 +1,6 @@
 ---
 title: "Introduction to `mbir`"
-author: "Kyle D. Peterson"
+author: "Kyle D. Peterson, Aaron Caldwell"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
@@ -122,7 +122,7 @@ If a practioner wanted to decipher if the prospective athletes recorded faster t
 - `paired = FALSE` due to the independent study design. 
 
 ```{r}
-mbir::smd_test(x = now, y = then, paired = FALSE)
+mbir::smd_test(x = now, y = then, paired = FALSE, auto = T)
 ```
 
 `smd_test()` output first provides the mean for the respective groups, followed by the detected assumptions and statistical test performed. Since normality and homoscedasticity were observed, the Student's *t*-test was executed upon the raw data (which can be confirmed by following the decision tree path in Figure 1). After displaying the *t*-test parameters, we see Cohen's *d* of 0.66 (± 0.54) attributes to a *moderate* effect size magnitude (according to Hopkins' thresholds). However, applying the qualitative language associated with the magnitude-based inferences (last line of `smd_test()` output), we can add *possibly* to our conclusion statement. 
@@ -154,7 +154,7 @@ If a practitioner wanted to ask if there was a positive effect after some traini
 
 ```{r}
 # Named a variable "mag" for later use within vignette
-mag<-mbir::smd_test(post, pre, paired = T)
+mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 ```
 
 Since the raw data deviated far from a Gaussian distribution, transformations were applied to correct for such violation. Regarding the parametric inference, quite significant NHST parameters are calcualted. However, what is more telling is that post-test values recorded 1.53 (± 0.45) times more pull ups than pre-test, resulting in a *most likely small* increase. Before moving on though, let's consider the philosophy behind Frank Wilcoxon's underutilized, yet elegant, nonparametric methodology - as it may provide better context for answering the present question. 
@@ -346,7 +346,7 @@ If users wish to include effect size confidence intervals from preceding `smd_te
 
 ```{r, eval=FALSE}
 # Section 1.1. pre-test post-test 40 yard dash example:
-mag<-mbir::smd_test(post, pre, paired = T)
+mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 ```
 
 
@@ -481,6 +481,6 @@ knitr::include_graphics("figures/swc_ind.jpeg")
 ##      6   -1.4   90  5  5    Very Likely Lower
 ```
 
-Below the given Trend Parameters is the magnitude-based inference about the slope against the target slope. In the current example, the slope of 0.463 is *likely higher* than the specified 0.25. The last table describes magnitude-based inferences of how far each time point vertically deviates from regression line (essentially an analysis of residuals). The current example displays that the first measurement is *likely lower* than the trend line, as well as measurement 6 being *possibly lower*. Otherwise, no meaningful deviations were detected. 
+Below the given Trend Parameters is the magnitude-based inference about the slope against the target slope. In the current example, the slope of 0.474 is *likely higher* than the specified 0.25. The last table describes magnitude-based inferences of how far each time point vertically deviates from regression line (essentially an analysis of residuals). The current example displays that the first measurement is *likely lower* than the trend line, as well as measurement 6 being *possibly lower*. Otherwise, no meaningful deviations were detected. 
 
 **References**

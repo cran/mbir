@@ -4,7 +4,7 @@
 \alias{corr_diff}
 \title{Test of Two Correlations}
 \usage{
-corr_diff(r1, n1, r2, n2, conf.int)
+corr_diff(r1, n1, r2, n2, conf.int = 0.9, plot = FALSE)
 }
 \arguments{
 \item{r1}{correlation of group 1}
@@ -16,6 +16,8 @@ corr_diff(r1, n1, r2, n2, conf.int)
 \item{n2}{sample size of group 2}
 
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
+
+\item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }
 \description{
 Provides statistical inference upon the difference between two independent correlations.

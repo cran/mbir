@@ -4,7 +4,7 @@
 \alias{odds}
 \title{Odds Ratio}
 \usage{
-odds(or, p, conf.int)
+odds(or, p, conf.int = 0.9)
 }
 \arguments{
 \item{or}{odds ratio}

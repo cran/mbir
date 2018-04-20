@@ -10,9 +10,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<meta name="author" content="Kyle D. Peterson" />
+<meta name="author" content="Kyle D. Peterson, Aaron Caldwell" />
 
-<meta name="date" content="2017-08-29" />
+<meta name="date" content="2018-04-19" />
 
 <title>Introduction to mbir</title>
 
@@ -69,8 +69,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Introduction to <code>mbir</code></h1>
-<h4 class="author"><em>Kyle D. Peterson</em></h4>
-<h4 class="date"><em>2017-08-29</em></h4>
+<h4 class="author"><em>Kyle D. Peterson, Aaron Caldwell</em></h4>
+<h4 class="date"><em>2018-04-19</em></h4>
 
 
 
@@ -167,9 +167,9 @@ Consider the following data set, which sampled twenty wide receiver 40-yard dash
 <li><code>y</code> as the null group to test against (2007).</li>
 <li><code>paired = FALSE</code> due to the independent study design.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mbir<span class="op">::</span><span class="kw">smd_test</span>(<span class="dt">x =</span> now, <span class="dt">y =</span> then, <span class="dt">paired =</span> <span class="ot">FALSE</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mbir<span class="op">::</span><span class="kw">smd_test</span>(<span class="dt">x =</span> now, <span class="dt">y =</span> then, <span class="dt">paired =</span> <span class="ot">FALSE</span>, <span class="dt">auto =</span> T)</code></pre></div>
 <pre><code>##    Mean of now = 4.53; Mean of then = 4.47
-##    Normality Observed, Equal Variance
+##    Assumed Normality, Equal Variance
 ##    Method:  Two Sample t-test
 ## 
 ##           Raw Scale
@@ -204,9 +204,9 @@ Consider the following data set, which sampled twenty wide receiver 40-yard dash
 <li><code>paired = TRUE</code></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Named a variable &quot;mag&quot; for later use within vignette</span>
-mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre, <span class="dt">paired =</span> T)</code></pre></div>
+mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre, <span class="dt">paired =</span> T, <span class="dt">auto =</span> T)</code></pre></div>
 <pre><code>##    Mean of post = 3.08; Mean of pre = 1.96
-##    Skewness Observed, Equal Variance
+##    Skewness Assumed, Equal Variance
 ##    Method: Paired t-test
 ## 
 ##         Log-Transformed
@@ -222,7 +222,6 @@ mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre
 ##         Most Unlikely Very Unlikely Most Likely
 ##         &quot;Lower&quot;       &quot;Trivial&quot;     &quot;Higher&quot;   
 ## MBI (%) &quot;0.2&quot;         &quot;3.6&quot;         &quot;96.2&quot;     
-## 
 ## Inference: Most Likely Small Increase.
 ## -----------------------------------------------
 ##    Nonparametric Inference
@@ -243,7 +242,7 @@ mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre
 ##         &quot;Negative&quot;    &quot;Trivial&quot; &quot;Positive&quot;
 ## MBI (%) &quot;3.4&quot;         &quot;15.2&quot;    &quot;81.4&quot;    
 ## 
-## Inference: Likely Small Effect Size.</code></pre>
+## Inference: Likely Small Effect Size</code></pre>
 <p>Since the raw data deviated far from a Gaussian distribution, transformations were applied to correct for such violation. Regarding the parametric inference, quite significant NHST parameters are calcualted. However, what is more telling is that post-test values recorded 1.53 (± 0.45) times more pull ups than pre-test, resulting in a <em>most likely small</em> increase. Before moving on though, let’s consider the philosophy behind Frank Wilcoxon’s underutilized, yet elegant, nonparametric methodology - as it may provide better context for answering the present question.</p>
 <p>The Wilcoxon signed-rank test operates in a fairly similar manner as the paired <em>t</em>-test (based on the difference between two conditions). Once these differences between pre-/post-test are calcualted they are numerically ranked with the sign of the difference (positive/negative) assigned to each rank (zeros excluded). In the end, the sum of the positive ranks are tested against the sum of the negative ranks. Thinking back to the pull up scenario, this logic dovetails nicely with the question at hand: how many athletes improved, performed equal, or worse from pre-test to post-test? The nonparametric analysis indeed appreciates that a select few experienced a performance decay (<em>r</em> 90% lower bound: -0.06) while most reaped a positive adaptation (<em>r</em> 90% upper bound: 0.57). Therefore, the present conclusion would take on the following argot:</p>
 <blockquote>
@@ -297,7 +296,7 @@ mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre
 ## 
 ##         Very Unlikely Unlikely  Possibly  
 ##         &quot;Negative&quot;    &quot;Trivial&quot; &quot;Positive&quot;
-## MBI (%) &quot;4.6&quot;         &quot;21.4&quot;    &quot;74&quot;      
+## MBI (%) &quot;4.6&quot;         &quot;21.5&quot;    &quot;73.9&quot;    
 ## 
 ## Inference: Possibly Small Positive Correlation.</code></pre>
 </div>
@@ -334,7 +333,7 @@ mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre
 ##    diff = -0.15
 ##    chi-sq = 1
 ##    90% CI [-0.37, 0.09]
-##    p value = 0.38
+##    p value = 0.33
 ## 
 ##    phi = 0.15
 ## 
@@ -367,9 +366,7 @@ mbir<span class="op">::</span><span class="kw">corr_diff</span>(<span class="dt"
 <pre><code>##    Test of Two Correlations:
 ##    diff = 0.12
 ##    90% CI [-0.28, 0.57]
-##    p value = 0.55
-## 
-## Inference: Lacking Evidence, r2 = r1, (CI contains 0).</code></pre>
+##    p value = 0.55</code></pre>
 <p>Even though the two correlations display strong evidence towards their associations independently, the practitioner cannot conclude that one of the groups has a stronger relationship compared to the other (i.e. the two positive correlations do not differ). In the end, the conclusion would be there is considerable uncertainty between groups, as the difference in correlations for females and males (<em>r</em><sub><em>2</em></sub> - <em>r</em><sub><em>1</em></sub> = 0.12) could plausibly be as low as -0.28 or as high as 0.57.</p>
 </div>
 </div>
@@ -493,7 +490,7 @@ mbir<span class="op">::</span><span class="kw">corr_diff</span>(<span class="dt"
 ## or = 2.1</code></pre>
 <p>If users wish to include effect size confidence intervals from preceding <code>smd_test()</code> results within one line of code, they may do so as such:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Section 1.1. pre-test post-test 40 yard dash example:</span>
-mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre, <span class="dt">paired =</span> T)</code></pre></div>
+mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre, <span class="dt">paired =</span> T, <span class="dt">auto =</span> T)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wish to convert given Odds Ratio to Cohen's d:</span>
 mbir<span class="op">::</span><span class="kw">es_convert</span>(<span class="kw">c</span>(mag<span class="op">$</span>or.LL, mag<span class="op">$</span>or.stat, mag<span class="op">$</span>or.UL), <span class="dt">from =</span> <span class="st">&quot;or&quot;</span>, <span class="dt">to =</span> <span class="st">&quot;d&quot;</span>)</code></pre></div>
 <pre><code>## Effect Size Conversion
@@ -525,10 +522,10 @@ mbir<span class="op">::</span><span class="kw">es_convert</span>(<span class="kw
 ## 10,000 Resamples
 ## 
 ##  5% 95% 
-##  60 226 
+##  72 224 
 ## 
 ## Difference in Medians: Lacking Evidence (CI contains 100).</code></pre>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <p>The histogram illustrates the bootstrapped distribution of the resampled difference in medians. If the dashed line (<code>med</code>) is within the solid lines (confidence intervals), evidence of effect is absent. Conversely, if <code>med</code> is outside the confidence intervals, evidence of effect is present.</p>
 <p>Regarding the sRPE data set, surely an effect is present, but unfortunately the user can not definitively say there is a difference of 100 after resampling, as the 90% confidence interval contains 100 (dashed line between solid lines).</p>
 </div>
@@ -593,7 +590,7 @@ mbir<span class="op">::</span><span class="kw">swc_ind</span>(<span class="dt">x
 ##      4    0.9   21 11 68                  ---
 ##      5    0.6   26 13 61                  ---
 ##      6   -1.4   90  5  5    Very Likely Lower</code></pre></div>
-<p>Below the given Trend Parameters is the magnitude-based inference about the slope against the target slope. In the current example, the slope of 0.463 is <em>likely higher</em> than the specified 0.25. The last table describes magnitude-based inferences of how far each time point vertically deviates from regression line (essentially an analysis of residuals). The current example displays that the first measurement is <em>likely lower</em> than the trend line, as well as measurement 6 being <em>possibly lower</em>. Otherwise, no meaningful deviations were detected.</p>
+<p>Below the given Trend Parameters is the magnitude-based inference about the slope against the target slope. In the current example, the slope of 0.474 is <em>likely higher</em> than the specified 0.25. The last table describes magnitude-based inferences of how far each time point vertically deviates from regression line (essentially an analysis of residuals). The current example displays that the first measurement is <em>likely lower</em> than the trend line, as well as measurement 6 being <em>possibly lower</em>. Otherwise, no meaningful deviations were detected.</p>
 <p><strong>References</strong></p>
 </div>
 </div>

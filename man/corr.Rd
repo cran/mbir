@@ -4,7 +4,7 @@
 \alias{corr}
 \title{Correlation Coefficient}
 \usage{
-corr(r, n, conf.int)
+corr(r, n, conf.int = 0.9, SESOI = 0.1, plot = FALSE)
 }
 \arguments{
 \item{r}{correlation coefficient}
@@ -12,6 +12,10 @@ corr(r, n, conf.int)
 \item{n}{sample size}
 
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
+
+\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
+
+\item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }
 \description{
 Provides magnitude-based inferences upon given \emph{r} value and sample size. Based upon WG Hopkins Microsoft Excel spreadsheet.

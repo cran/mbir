@@ -4,22 +4,33 @@
 \alias{smd_test}
 \title{Standardized Mean Difference Test}
 \usage{
-smd_test(x, y, paired = c(TRUE, FALSE), conf.int, mu)
+smd_test(x, y, paired = c(TRUE, FALSE), auto = TRUE, var = TRUE,
+  normal = TRUE, conf.int = 0.9, mu = 0, SESOI = 0.5, plot = FALSE)
 }
 \arguments{
 \item{x, y}{numeric vectors of data values}
 
 \item{paired}{(character) logical indicator specifying if \code{x} and \code{y} are paired \code{(TRUE)} or independent \code{(FALSE)}}
 
+\item{auto}{(character) logical indicator specifying if user wants function to programmatically detect statistical procedures. Defaults to \code{TRUE}}
+
+\item{var}{(optional) if \code{auto = F}, logical indicator specifying if homogeneity of variance assumed. Defaults to \code{TRUE}}
+
+\item{normal}{(optional) if \code{auto = F}, logical indicator specifying if normality assumed. Defaults to \code{TRUE}}
+
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
 
 \item{mu}{(optional) number indicating true difference in means to test against. Defaults to zero.}
+
+\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.5}}
+
+\item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }
 \value{
 Associated effect size measures (\emph{d}, \emph{r}, odds ratio) and respective confidence intervals based upon which statistical test(s) performed.
 }
 \description{
-Performs two-sample difference of means analysis to produce magnitude-based inferences. Evaluates both normality and homoscedasticity, performs either t-test or wilcoxon test, computes effect sizes and estimates magnitude-based inferences. Allows both independent and paired designs.
+Performs two-sample difference of means analysis to produce magnitude-based inferences. Evaluates both normality and homogeneity, performs either t-test or wilcoxon test, computes effect sizes and estimates magnitude-based inferences. Allows both independent and paired designs.
 }
 \details{
 Refer to vignette for further information.
@@ -28,5 +39,5 @@ Refer to vignette for further information.
 a <- rnorm(25, 80, 35)
 b <- rnorm(25, 100, 50)
 
-smd_test(a, b, paired = FALSE, 0.95)
+smd_test(a, b, paired = FALSE, conf.int=0.95)
 }
