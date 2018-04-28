@@ -5,7 +5,7 @@
 \title{Standardized Mean Difference Test}
 \usage{
 smd_test(x, y, paired = c(TRUE, FALSE), auto = TRUE, var = TRUE,
-  normal = TRUE, conf.int = 0.9, mu = 0, SESOI = 0.5, plot = FALSE)
+  normal = TRUE, conf.int = 0.9, mu = 0, swc = 0.5, plot = FALSE)
 }
 \arguments{
 \item{x, y}{numeric vectors of data values}
@@ -22,7 +22,7 @@ smd_test(x, y, paired = c(TRUE, FALSE), auto = TRUE, var = TRUE,
 
 \item{mu}{(optional) number indicating true difference in means to test against. Defaults to zero.}
 
-\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.5}}
+\item{swc}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.5}}
 
 \item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }

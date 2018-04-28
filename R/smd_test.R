@@ -9,7 +9,7 @@
 #'@param normal (optional) if \code{auto = F}, logical indicator specifying if normality assumed. Defaults to \code{TRUE}
 #'@param conf.int (optional) confidence level of the interval. Defaults to \code{0.90}
 #'@param mu (optional) number indicating true difference in means to test against. Defaults to zero.
-#'@param SESOI (optional) number indicating smallest worthwhile change. Defaults to \code{0.5}
+#'@param swc (optional) number indicating smallest worthwhile change. Defaults to \code{0.5}
 #'@param plot (optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}
 #'@return Associated effect size measures (\emph{d}, \emph{r}, odds ratio) and respective confidence intervals based upon which statistical test(s) performed.
 #'@details Refer to vignette for further information.
@@ -19,7 +19,7 @@
 #'@examples smd_test(a, b, paired = FALSE, conf.int=0.95)
 #'@export
 
-smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal = TRUE, conf.int = 0.9, mu = 0, SESOI = 0.5, plot=FALSE) {
+smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal = TRUE, conf.int = 0.9, mu = 0, swc = 0.5, plot=FALSE) {
 
   if (is.character(x) == TRUE ||
       is.factor(x) == TRUE || is.character(y) ==
@@ -37,7 +37,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     stop(error)
   }
 
-  if (SESOI <= 0 ) {
+  if (swc <= 0 ) {
     error <- "Sorry, the smallest effect size of interest be a positive number"
     stop(error)
   }
@@ -129,14 +129,14 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
                 stats::qnorm(rank$p.value / 2) / sqrt(n2),
                 abs(stats::qnorm(rank$p.value / 2) / sqrt(n2)))
     r.LL <-
-      (exp(2 * ((SESOI * log((1 + r) / (1 - r)
+      (exp(2 * ((swc * log((1 + r) / (1 - r)
       )) + (
         stats::qnorm(((
           100 -
             (100 * conf.int)
         ) / 100 / 2)) / sqrt(n - 3)
       ))) - 1) / (exp(2 *
-                        ((SESOI * log((1 + r) /
+                        ((swc * log((1 + r) /
                                         (1 - r)
                         )) + (
                           stats::qnorm(((
@@ -145,14 +145,14 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
                           ) / 100 / 2)) / sqrt(n - 3)
                         ))) + 1)
     r.UL <-
-      (exp(2 * ((SESOI * log((1 + r) / (1 - r)
+      (exp(2 * ((swc * log((1 + r) / (1 - r)
       )) - (
         stats::qnorm(((
           100 -
             (100 * conf.int)
         ) / 100 / 2)) / sqrt(n - 3)
       ))) - 1) / (exp(2 *
-                        ((SESOI * log((1 + r) /
+                        ((swc * log((1 + r) /
                                         (1 - r)
                         )) - (
                           stats::qnorm(((
@@ -355,12 +355,12 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
         ", ", round(r.UL, digits = 2), "]\n\n", sep = "")
     positive.r <-
       round(100 * (1 - stats::pnorm(
-        0.1, mean = (SESOI *
+        0.1, mean = (swc *
                        log((1 + r) /
                              (1 - r))), sd = (1 / sqrt(n - 3))
       )), digits = 1)
     negative.r <- round(100 * (stats::pnorm(
-      -0.1, mean = (SESOI *
+      -0.1, mean = (swc *
                       log((1 + r) /
                             (1 - r))), sd = (1 / sqrt(n - 3))
     )), digits = 1)
@@ -522,12 +522,12 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     parameter <- ifelse(test$parameter < 30, "Cohen d Adj",
                         "Cohen d")
     negative <-
-      round(100 * (ifelse((d--SESOI) > 0,
-                          stats::pt((d--SESOI) / abs(d) * abs(test$statistic),
+      round(100 * (ifelse((d--swc) > 0,
+                          stats::pt((d--swc) / abs(d) * abs(test$statistic),
                                     test$parameter,
                                     lower.tail = F
                           ),
-                          (1 - stats::pt((-SESOI - d) / abs(d) *
+                          (1 - stats::pt((-swc - d) / abs(d) *
                                            abs(test$statistic),
                                          test$parameter,
                                          lower.tail = F
@@ -535,14 +535,14 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
       )),
       digits = 1)
     positive <-
-      round(100 * (ifelse((d - SESOI) > 0,
+      round(100 * (ifelse((d - swc) > 0,
                           (1 - stats::pt((d -
-                                            SESOI) /
+                                            swc) /
                                            abs(d) * abs(test$statistic),
                                          test$parameter,
                                          lower.tail = F
                           )),
-                          stats::pt((SESOI - d) / abs(d) * abs(test$statistic),
+                          stats::pt((swc - d) / abs(d) * abs(test$statistic),
                                     test$parameter,
                                     lower.tail = F
                           )
@@ -689,14 +689,14 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     cat(Inference)
 
     if (plot == TRUE) {
-      plot(NA, ylim = c(0, 1), xlim = c(min(LL, -SESOI) -
-                                          max(UL - LL, SESOI - -SESOI)/10,
-                                        max(UL, SESOI) + max(UL - LL, SESOI -
-                                                               -SESOI)/10), bty = "l", yaxt = "n", ylab = "",
+      plot(NA, ylim = c(0, 1), xlim = c(min(LL, -swc) -
+                                          max(UL - LL, swc - -swc)/10,
+                                        max(UL, swc) + max(UL - LL, swc -
+                                                               -swc)/10), bty = "l", yaxt = "n", ylab = "",
            xlab = "Effect Size")
       graphics::points(x = d, y = 0.5, pch = 15, cex = 2)
-      graphics::abline(v = SESOI, lty = 2)
-      graphics::abline(v = -SESOI, lty = 2)
+      graphics::abline(v = swc, lty = 2)
+      graphics::abline(v = -swc, lty = 2)
       graphics::abline(v = 0, lty = 2, col = "grey")
       graphics::segments(LL, 0.5, UL, 0.5, lwd = 3)
       graphics::title(main = paste(

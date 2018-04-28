@@ -6,7 +6,7 @@
 #'@param conf.int (optional) confidence level of the interval. Defaults to \code{0.90}
 #'@param auto (character) logical indicator specifying if user wants function to programmatically detect statistical procedures. Defaults to \code{TRUE}
 #'@param method (character) if \code{auto = F}, logical indicator specifying which correlation to execute (\code{pearson, spearman, kendall}). Defaults to \code{"pearson"}.
-#'@param SESOI (optional) number indicating smallest worthwhile change. Defaults to \code{0.1}
+#'@param swc (optional) number indicating smallest worthwhile change. Defaults to \code{0.1}
 #'@param plot (optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}
 #'@return Associated effect size measure, \emph{r}, and respective confidence intervals.
 #'@details Refer to vignette for further information.
@@ -16,7 +16,7 @@
 #'@examples corr_test(a, b, 0.95)
 #'@export
 
-corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", SESOI=0.1, plot=FALSE) {
+corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", swc=0.1, plot=FALSE) {
 
   if (length(x) != length(y) || sum(is.na(x)) > 0 || sum(is.na(y)) >
       0) {
@@ -36,19 +36,19 @@ corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", SESOI=0.1
     conf.int <- 0.9
   }
 
-  if (abs(SESOI) >= 1 ) {
-    error <- "Sorry, the smallest effect size of interest (SESOI) must be less than 1"
+  if (abs(swc) >= 1 ) {
+    error <- "Sorry, the smallest effect size of interest (swc) must be less than 1"
     stop(error)
   }
-  if (SESOI <= 0 ) {
-    error <- "Sorry, the smallest effect size of interest (SESOI) must be a positive number"
+  if (swc <= 0 ) {
+    error <- "Sorry, the smallest effect size of interest (swc) must be a positive number"
     stop(error)
   }
   #Variance and normality checks were removed.
   x <- stats::na.omit(x)
   y <- stats::na.omit(y)
   full <- append(x, y)
-  threshold <- (0.5*log((1+SESOI)/(1-SESOI)))
+  threshold <- (0.5*log((1+swc)/(1-swc)))
 
   #automated function
   if (auto==TRUE) {
@@ -177,14 +177,14 @@ corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", SESOI=0.1
 
   #Creates plots of MBI *Note will not print if normal=FALSE
   if (plot == TRUE) {
-    plot(NA, ylim = c(0, 1), xlim = c(min(r.LL, -SESOI) -
-                                        max(r.UL - r.LL, SESOI - -SESOI)/10,
-                                      max(r.UL, SESOI) + max(r.UL - r.LL, SESOI -
-                                                               -SESOI)/10), bty = "l", yaxt = "n", ylab = "",
+    plot(NA, ylim = c(0, 1), xlim = c(min(r.LL, -swc) -
+                                        max(r.UL - r.LL, swc - -swc)/10,
+                                      max(r.UL, swc) + max(r.UL - r.LL, swc -
+                                                               -swc)/10), bty = "l", yaxt = "n", ylab = "",
          xlab = "Correlation")
     graphics::points(x = r.stat, y = 0.5, pch = 15, cex = 2)
-    graphics::abline(v = SESOI, lty = 2)
-    graphics::abline(v = -SESOI, lty = 2)
+    graphics::abline(v = swc, lty = 2)
+    graphics::abline(v = -swc, lty = 2)
     graphics::abline(v = 0, lty = 2, col = "grey")
     graphics::segments(r.LL, 0.5, r.UL, 0.5, lwd = 3)
     graphics::title(main = paste(
@@ -197,7 +197,7 @@ corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", SESOI=0.1
   #Save List of values
   rval <- list(mean1 = round(mean(x, na.rm = T), digits = 3), sd1 = round(sd(x, na.rm = T), digits = 3),
                mean2 = round(mean(y, na.rm = T), digits = 3), sd2 = round(sd(y, na.rm = T), digits = 3),
-               N = length(full), SESOI = SESOI,
+               N = length(full), swc = swc,
                corr.stat = r.stat[[1]], z=corZ[[1]], z.LL = r.LL, z.UL = r.UL,
                norm=norm, type=type, inference=inference,
                mbiPositive=positive, mbiTrivial=trivial, mbiNegative=negative)

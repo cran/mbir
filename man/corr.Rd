@@ -4,7 +4,7 @@
 \alias{corr}
 \title{Correlation Coefficient}
 \usage{
-corr(r, n, conf.int = 0.9, SESOI = 0.1, plot = FALSE)
+corr(r, n, conf.int = 0.9, swc = 0.1, plot = FALSE)
 }
 \arguments{
 \item{r}{correlation coefficient}
@@ -13,7 +13,7 @@ corr(r, n, conf.int = 0.9, SESOI = 0.1, plot = FALSE)
 
 \item{conf.int}{(optional) confidence level of the interval. Defaults to \code{0.90}}
 
-\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
+\item{swc}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
 
 \item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }

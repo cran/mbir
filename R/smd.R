@@ -6,14 +6,14 @@
 #'@param p associated \emph{p}-value from t-statistic
 #'@param df associated degrees of freedom from t-statistic
 #'@param conf.int (optional) confidence level of the interval. Defaults to \code{0.90}
-#'@param SESOI (optional) number indicating smallest worthwhile change. Defaults to \code{0.5}
+#'@param swc (optional) number indicating smallest worthwhile change. Defaults to \code{0.5}
 #'@param plot (optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}
 #'@details Refer to vignette for further information.
 #'@references Hopkins WG. (2007). A spreadsheet for deriving a confidence interval, mechanistic inference and clinical inference from a \emph{p} value. \emph{Sportscience} 11, 16-20. sportsci.org/2007/wghinf.htm
 #'@examples smd(.75, 0.06, 20, 0.95)
 #'@export
 
-smd <- function (es, p, df, conf.int=0.9, SESOI=0.5, plot=FALSE)
+smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
 {
   if (is.character(es) == TRUE || is.factor(es) == TRUE ||
       is.character(p) == TRUE || is.factor(p) == TRUE || is.character(df) ==
@@ -31,9 +31,9 @@ smd <- function (es, p, df, conf.int=0.9, SESOI=0.5, plot=FALSE)
     stop(error)
   }
 
-  ###error messages with SESOI is incorrectly entered
-  if (SESOI <= 0 ) {
-    error <- "Sorry, the smallest effect size of interest (SESOI) must be a positive number"
+  ###error messages with swc is incorrectly entered
+  if (swc <= 0 ) {
+    error <- "Sorry, the smallest effect size of interest (swc) must be a positive number"
     stop(error)
   }
 
@@ -93,14 +93,14 @@ smd <- function (es, p, df, conf.int=0.9, SESOI=0.5, plot=FALSE)
   cat(inference)
 
   if (plot == TRUE) {
-    plot(NA, ylim = c(0, 1), xlim = c(min(LL, -SESOI) -
-                                        max(UL - LL, SESOI - -SESOI)/10,
-                                      max(UL, SESOI) + max(UL - LL, SESOI -
-                                                             -SESOI)/10), bty = "l", yaxt = "n", ylab = "",
+    plot(NA, ylim = c(0, 1), xlim = c(min(LL, -swc) -
+                                        max(UL - LL, swc - -swc)/10,
+                                      max(UL, swc) + max(UL - LL, swc -
+                                                             -swc)/10), bty = "l", yaxt = "n", ylab = "",
          xlab = "Effect Size")
     graphics::points(x = es, y = 0.5, pch = 15, cex = 2)
-    graphics::abline(v = SESOI, lty = 2)
-    graphics::abline(v = -SESOI, lty = 2)
+    graphics::abline(v = swc, lty = 2)
+    graphics::abline(v = -swc, lty = 2)
     graphics::abline(v = 0, lty = 2, col = "grey")
     graphics::segments(LL, 0.5, UL, 0.5, lwd = 3)
     graphics::title(main = paste(
@@ -111,6 +111,6 @@ smd <- function (es, p, df, conf.int=0.9, SESOI=0.5, plot=FALSE)
   }
 
   rval <- list(es=es, es.LL=LL, es.UL=UL,
-               p.value=p, conf.int=conf.int, SESOI=SESOI,
+               p.value=p, conf.int=conf.int, swc=swc,
                mbiPositive=positive, mbiTrivial=trivial, mbiNegative=negative, inference=inference)
 }

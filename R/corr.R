@@ -5,14 +5,14 @@
 #'@param r correlation coefficient
 #'@param n sample size
 #'@param conf.int (optional) confidence level of the interval. Defaults to \code{0.90}
-#'@param SESOI (optional) number indicating smallest worthwhile change. Defaults to \code{0.1}
+#'@param swc (optional) number indicating smallest worthwhile change. Defaults to \code{0.1}
 #'@param plot (optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}
 #'@details Refer to vignette for further information.
 #'@references Hopkins WG. (2007). A spreadsheet for deriving a confidence interval, mechanistic inference and clinical inference from a \emph{p} value. \emph{Sportscience} 11, 16-20. sportsci.org/2007/wghinf.htm
 #'@examples corr(.40, 25, 0.95)
 #'@export
 
-corr <- function (r, n, conf.int=0.9, SESOI=0.1, plot=FALSE) {
+corr <- function (r, n, conf.int=0.9, swc=0.1, plot=FALSE) {
   if (is.character(r) == TRUE || is.factor(r) == TRUE || is.character(n) ==
       TRUE || is.factor(n) == TRUE) {
     error <- "Sorry, data must be numeric or integer values."
@@ -32,18 +32,18 @@ corr <- function (r, n, conf.int=0.9, SESOI=0.1, plot=FALSE) {
     stop(error)
   }
 
-  if (abs(SESOI) >= 1) {
+  if (abs(swc) >= 1) {
     error <- "Please double check. Smallest effect size of interest cannot surpass 1."
     stop(error)
   }
 
-  if (SESOI <= 0 ) {
-    error <- "Sorry, the smallest effect size of interest (SESOI) must be a positive number"
+  if (swc <= 0 ) {
+    error <- "Sorry, the smallest effect size of interest (swc) must be a positive number"
     stop(error)
   }
 
-  #Z-transformation for the SESOI correlation
-  threshold <- (0.5*log((1+SESOI)/(1-SESOI)))
+  #Z-transformation for the swc correlation
+  threshold <- (0.5*log((1+swc)/(1-swc)))
 
   positive <- round(100 * (1 - stats::pnorm(threshold, mean = (0.5 *
                                                                  log((1 + r)/(1 - r))), sd = (1/sqrt(n - 3)))), digits = 1)
@@ -105,14 +105,14 @@ corr <- function (r, n, conf.int=0.9, SESOI=0.1, plot=FALSE) {
 
   #Creates plots of MBI *Note will not print if normal=FALSE
   if (plot == TRUE) {
-    plot(NA, ylim = c(0, 1), xlim = c(min(LL, -SESOI) -
-                                        max(UL - LL, SESOI - -SESOI)/10,
-                                      max(UL, SESOI) + max(UL - LL, SESOI -
-                                                             -SESOI)/10), bty = "l", yaxt = "n", ylab = "",
+    plot(NA, ylim = c(0, 1), xlim = c(min(LL, -swc) -
+                                        max(UL - LL, swc - -swc)/10,
+                                      max(UL, swc) + max(UL - LL, swc -
+                                                             -swc)/10), bty = "l", yaxt = "n", ylab = "",
          xlab = "Correlation")
     graphics::points(x = r, y = 0.5, pch = 15, cex = 2)
-    graphics::abline(v = SESOI, lty = 2)
-    graphics::abline(v = -SESOI, lty = 2)
+    graphics::abline(v = swc, lty = 2)
+    graphics::abline(v = -swc, lty = 2)
     graphics::abline(v = 0, lty = 2, col = "grey")
     graphics::segments(LL, 0.5, UL, 0.5, lwd = 3)
     graphics::title(main = paste(
@@ -124,5 +124,5 @@ corr <- function (r, n, conf.int=0.9, SESOI=0.1, plot=FALSE) {
 
   rval <- list(r=r, r.LL=LL, r.UL=UL,
                mbiPositive=positive, mbiTrivial=trivial, mbiNegative=negative,
-               inference=inference, SESOI=SESOI, conf.int=conf.int)
+               inference=inference, swc=swc, conf.int=conf.int)
 }

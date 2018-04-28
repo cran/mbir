@@ -5,7 +5,7 @@
 \title{Correlation Coefficient Test}
 \usage{
 corr_test(x, y, conf.int = 0.9, auto = TRUE, method = "pearson",
-  SESOI = 0.1, plot = FALSE)
+  swc = 0.1, plot = FALSE)
 }
 \arguments{
 \item{x, y}{numeric vectors of data values}
@@ -16,7 +16,7 @@ corr_test(x, y, conf.int = 0.9, auto = TRUE, method = "pearson",
 
 \item{method}{(character) if \code{auto = F}, logical indicator specifying which correlation to execute (\code{pearson, spearman, kendall}). Defaults to \code{"pearson"}.}
 
-\item{SESOI}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
+\item{swc}{(optional) number indicating smallest worthwhile change. Defaults to \code{0.1}}
 
 \item{plot}{(optional) logical indicator specifying to print associated plot. Defaults to \code{FALSE}}
 }

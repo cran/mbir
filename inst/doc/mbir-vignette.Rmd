@@ -447,7 +447,7 @@ For "trend" analysis, the syntactic structure of `swc_ind()` involves the follow
 
 - `x` numeric data vector of an individual's performance measurements
 - `swc` (±) smallest worthwhile change
-- `type` "previous"
+- `type` "trend"
 - `ts` (±) target slope
 
 ```{r,eval=FALSE}
