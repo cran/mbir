@@ -18,13 +18,11 @@
 
 corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", swc=0.1, plot=FALSE) {
 
-  if (length(x) != length(y) || sum(is.na(x)) > 0 || sum(is.na(y)) >
-      0) {
+  if (length(x) != length(y) || sum(is.na(x)) > 0 || sum(is.na(y)) > 0) {
     error <- "Sorry, data must be same length and complete cases."
     stop(error)
   }
-  if (is.character(x) == TRUE || is.factor(x) == TRUE || is.character(y) ==
-      TRUE || is.factor(y) == TRUE) {
+  if (is.character(x) == TRUE || is.factor(x) == TRUE || is.character(y) == TRUE || is.factor(y) == TRUE) {
     error <- "Sorry, data must be numeric or integer values."
     stop(error)
   }
@@ -55,17 +53,16 @@ corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", swc=0.1, 
     x.z <- (x - mean(x))/stats::sd(x)
     y.z <- (y - mean(y))/stats::sd(y)
     normal <- stats::shapiro.test(full)
+    normlabel<-ifelse(normal$p.value<0.05 || max(x.z) > 3 || max(y.z) > 3,"   Normality Observed, No Outliers Detected","   Skewness Observed or Outliers Detected")
     method <- ifelse(normal$p.value<0.05 || max(x.z) > 3 || max(y.z) > 3, "spearman", "pearson")
-
   }
 
   #Pearson
-  if (method=="pearson") {
+  if (method == "pearson") {
     cor <- stats::cor.test(x, y, method = method, exact = F,
                            na.action = na.omit, conf.level = conf.int)
     corZ <- (0.5*log((1+cor$estimate)/(1-cor$estimate)))
   }
-
 
 
   if (method == "spearman") {
@@ -110,11 +107,9 @@ corr_test <- function(x, y, conf.int=0.9, auto=TRUE, method="pearson", swc=0.1, 
                                                                                                                           3)))), digits = 1)
   trivial <- round(100 - positive - negative, digits = 1)
   level <- paste(as.character(100 * conf.int), "%", sep = "")
-  norm <- ifelse(method == "pearson", "   Normality Assumed",
-                 "Assumed outliers or skewness")
   type <- ifelse(method == "pearson", "Pearson", ifelse(method == "spearman", "Spearman", "Kendall"))
   type2 <- ifelse(method == "pearson", "r = ", "rho = ")
-  cat(norm, "\n")
+  if(auto==TRUE){cat(normlabel, "\n")}else{cat("\n")}
   cat("   Method: ", type, "\n\n", sep = " ")
   cat("   ", type2, round(cor$estimate, digits = 2), "\n",
       sep = "")

@@ -52,6 +52,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     normal.x<-stats::shapiro.test(x)
     normal.y<-stats::shapiro.test(y)
     Normal<-ifelse(normal.x$p.value < .05 || normal.y$p.value < .05, FALSE, TRUE)
+    normlabel<-ifelse(normal.x$p.value < .05 || normal.y$p.value < .05,"   Skewness Observed","   Normality Observed")
     equal<-stats::var.test(x,y)
     variance<-ifelse(equal$p.value < .05, FALSE,TRUE)
     variance2<-ifelse(equal$p.value < .05, "Unequal Variance","Equal Variance")
@@ -60,12 +61,11 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
   if(auto==FALSE){
     NormTest <- FALSE
     VarTest <- FALSE
-
     Normal <- normal
     equal <- var
     variance <- ifelse(var == FALSE, FALSE, TRUE)
-    variance2 <- ifelse(var == FALSE, "Unequal Variance",
-                        "Equal Variance")
+    variance2 <- ifelse(var == FALSE, "Unequal Variance","Equal Variance")
+    normlabel<-ifelse(normal.x$p.value < .05 || normal.y$p.value < .05,"   Skewness Assumed","   Normality Assumed")
   }
 
 
@@ -206,7 +206,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
                             paste(level, "CI UL", sep = " "))
     }
     colnames(table2) <- c("Rank-Based")
-    title <- paste("   Skewness Assumed", variance2, sep = ", ")
+    title <- paste(normlabel, variance2, sep = ", ")
     title2 <- paste("   Method:", test$method, sep = " ")
     title3 <- paste("   Method:", rank$method, sep = " ")
     cat("   Mean of ", deparse(substitute(x)), " = ", round(mean(x,
@@ -478,7 +478,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
                       )
                     )))
 
-    NonParametricInference <-  ifelse(abs(positive) >= 5 && abs(negative) > 5,
+    NonParametricInference <-  ifelse(abs(positive.r) >= 5 && abs(negative.r) > 5,
                                       paste("Inference: Unclear Difference."),
                                       paste("Inference:", infer3.r, mag.r, "Effect Size",sep = " "))
     cat(NonParametricInference)
@@ -653,7 +653,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
              ))
     colnames(table2) <- c(lower, trivial2, higher)
     title3 <- ("   Magnitude-Based Inference")
-    title <- paste("   Assumed Normality", variance2, sep = ", ")
+    title <- paste(normlabel, variance2, sep = ", ")
     title2 <- paste("   Method:", test$method, sep = " ")
     cat("   Mean of ", deparse(substitute(x)), " = ", round(mean(x,
                                                                  na.rm = T), digits = 2), "; ", "Mean of ", deparse(substitute(y)),
