@@ -65,7 +65,7 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     equal <- var
     variance <- ifelse(var == FALSE, FALSE, TRUE)
     variance2 <- ifelse(var == FALSE, "Unequal Variance","Equal Variance")
-    normlabel<-ifelse(normal.x$p.value < .05 || normal.y$p.value < .05,"   Skewness Assumed","   Normality Assumed")
+    normlabel<-ifelse(normal == FALSE,"   Skewness Assumed","   Normality Assumed")
   }
 
 
@@ -725,3 +725,5 @@ smd_test<-function(x, y, paired = c(TRUE, FALSE), auto=TRUE, var = TRUE, normal 
     )
   }
 }
+
+
