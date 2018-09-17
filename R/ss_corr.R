@@ -73,5 +73,16 @@ ss_corr<-function(n, r){
   mag<-ifelse(abs(r) < 0.1 || infer == 2,"Trivial",ifelse(abs(r) < 0.3, "Small",ifelse(abs(r) < 0.5,"Moderate",ifelse(abs(r) < 0.7,"Large",ifelse(abs(r) < 0.9,"Very Large",ifelse(abs(r) >= .9,"Very Large"))))))
   if(abs(positive) >= 5 && abs(negative) > 5){cat("Inference: Unclear Association.")}
   else {cat("Inference:",infer3,mag,infer2,"Correlation.",sep = " ")}
+
+  Inference <- ifelse(abs(positive) >= 5 && abs(negative) > 5,
+                      paste("Inference: Unclear Association."),
+                      paste("Inference:", infer3, mag, infer2, "Correlation.",sep = " "))
+
+  invisible(list(
+    mbiNegative = negative,
+    mbiTrivial = trivial,
+    mbiPositive = positive,
+    Inference = Inference)
+  )
 }
 

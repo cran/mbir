@@ -118,4 +118,9 @@ aipe_smd<-function(moe, paired=c(TRUE,FALSE), conf.int, assur.lvl, r){
     cat("\nEstimated Total Sample Size\n","n = ",n,sep = "")
     cat("\n\nWith ",level2," Assurance\n","n = ",ass,sep = "")
   }
+
+  invisible(list(
+    n = n,
+    assur = ass)
+  )
 }

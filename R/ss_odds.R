@@ -71,5 +71,16 @@ ss_odds<-function(exp, con, or){
   else{mag<-ifelse(abs(or) < 1.5 || infer == 2,"Trivial",ifelse(abs(or) < 3.5, "Small",ifelse(abs(or) < 9,"Moderate",ifelse(abs(or) < 32,"Large",ifelse(abs(or) >= 32,"Very Large")))))}
   if(abs(positive) >= 5 && abs(negative) > 5){cat("Inference: Unclear Difference.")}
   else {cat("Inference:",infer2,mag,dir,sep = " ")}
+
+  Inference <-  ifelse(abs(positive) >= 5 && abs(negative) > 5,
+                       paste("Inference: Unclear Difference."),
+                       paste("Inference:", infer2, mag, dir, sep = " "))
+
+  invisible(list(
+    mbiNegative = negative,
+    mbiTrivial = trivial,
+    mbiPositive = positive,
+    Inference = Inference)
+  )
 }
 

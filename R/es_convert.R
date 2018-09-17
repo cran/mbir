@@ -80,4 +80,6 @@ es_convert<-function(x,from = c("d","or","r"),to = c("d","or","r")){
   cat("Effect Size Conversion\n")
   cat(from,"=",x,"\n",sep = " ")
   cat(to,"=", convert,sep = " ")
+
+  rval<-list(convert=convert)
 }

@@ -13,8 +13,8 @@
 #'@examples smd(.75, 0.06, 20, 0.95)
 #'@export
 
-smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
-{
+smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE){
+
   if (is.character(es) == TRUE || is.factor(es) == TRUE ||
       is.character(p) == TRUE || is.factor(p) == TRUE || is.character(df) ==
       TRUE || is.factor(df) == TRUE) {
@@ -37,13 +37,13 @@ smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
     stop(error)
   }
 
-  negative <- round(100 * (ifelse((es - -0.5) > 0, stats::pt((es -
-                                                                -0.5)/abs(es) * abs(stats::qt(p/2, df)), df, lower.tail = F),
-                                  (1 - stats::pt((-0.5 - es)/abs(es) * abs(stats::qt(p/2,
+  negative <- round(100 * (ifelse((es - -swc) > 0, stats::pt((es -
+                                                                -swc)/abs(es) * abs(stats::qt(p/2, df)), df, lower.tail = F),
+                                  (1 - stats::pt((-swc - es)/abs(es) * abs(stats::qt(p/2,
                                                                                      df)), df, lower.tail = F)))), digits = 1)
-  positive <- round(100 * (ifelse((es - 0.5) > 0, (1 - stats::pt((es -
-                                                                    0.5)/abs(es) * abs(stats::qt(p/2, df)), df, lower.tail = F)),
-                                  stats::pt((0.5 - es)/abs(es) * abs(stats::qt(p/2, df)),
+  positive <- round(100 * (ifelse((es - swc) > 0, (1 - stats::pt((es -
+                                                                    swc)/abs(es) * abs(stats::qt(p/2, df)), df, lower.tail = F)),
+                                  stats::pt((swc - es)/abs(es) * abs(stats::qt(p/2, df)),
                                             df, lower.tail = F))), digits = 1)
   trivial <- round((100 - positive - negative), digits = 1)
   LL <- es - (stats::qt(((100 - (100 * conf.int))/100)/2, df)) *
@@ -59,17 +59,17 @@ smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
   table <- matrix(c("Negative", "Trivial", "Positive", negative,
                     trivial, positive), nrow = 2, byrow = T)
   rownames(table) <- c(" ", "MBI (%)")
-  lower <- ifelse(negative < 0.5, "Most Unlikely", ifelse(negative <
+  lower <- ifelse(negative < swc, "Most Unlikely", ifelse(negative <
                                                             5, "Very Unlikely", ifelse(negative < 25, "Unlikely",
                                                                                        ifelse(negative < 75, "Possibly", ifelse(negative < 95,
                                                                                                                                 "Likely", ifelse(negative < 99, "Most Likely", ifelse(negative >=
                                                                                                                                                                                         99, "Almost Certainly")))))))
-  trivial2 <- ifelse(trivial < 0.5, "Most Unlikely", ifelse(trivial <
+  trivial2 <- ifelse(trivial < swc, "Most Unlikely", ifelse(trivial <
                                                               5, "Very Unlikely", ifelse(trivial < 25, "Unlikely",
                                                                                          ifelse(trivial < 75, "Possibly", ifelse(trivial < 95,
                                                                                                                                  "Likely", ifelse(negative < 99, "Most Likely", ifelse(negative >=
                                                                                                                                                                                          99, "Almost Certainly")))))))
-  higher <- ifelse(positive < 0.5, "Most Unlikely", ifelse(positive <
+  higher <- ifelse(positive < swc, "Most Unlikely", ifelse(positive <
                                                              5, "Very Unlikely", ifelse(positive < 25, "Unlikely",
                                                                                         ifelse(positive < 75, "Possibly", ifelse(positive < 95,
                                                                                                                                  "Likely", ifelse(negative < 99, "Most Likely", ifelse(negative >=
@@ -82,9 +82,9 @@ smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
   infer <- which.max(table[2, ])
   infer2 <- ifelse(infer == 1, lower, ifelse(infer == 2, trivial2,
                                              ifelse(infer == 3, higher)))
-  mag <- ifelse(abs(es) < 0.2 || infer == 2, "Trivial", ifelse(abs(es) <
-                                                                 0.6, "Small", ifelse(abs(es) < 1.2, "Moderate", ifelse(abs(es) <
-                                                                                                                          2, "Large", ifelse(abs(es) >= 2, "Very Large")))))
+  mag <- ifelse(abs(swc) < 0.2 || infer == 2, "Trivial", ifelse(abs(swc) <
+                                                                  0.6, "Small", ifelse(abs(swc) < 1.2, "Moderate", ifelse(abs(swc) <
+                                                                                                                            2, "Large", ifelse(abs(swc) >= 2, "Very Large")))))
   dir <- ifelse(infer == 1, "Decrease.", ifelse(infer == 2,
                                                 "Difference.", ifelse(infer == 3, "Increase.")))
   inference <- ifelse(abs(positive) >= 5 && abs(negative) > 5,
@@ -96,7 +96,7 @@ smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
     plot(NA, ylim = c(0, 1), xlim = c(min(LL, -swc) -
                                         max(UL - LL, swc - -swc)/10,
                                       max(UL, swc) + max(UL - LL, swc -
-                                                             -swc)/10), bty = "l", yaxt = "n", ylab = "",
+                                                           -swc)/10), bty = "l", yaxt = "n", ylab = "",
          xlab = "Effect Size")
     graphics::points(x = es, y = 0.5, pch = 15, cex = 2)
     graphics::abline(v = swc, lty = 2)
@@ -114,3 +114,5 @@ smd <- function (es, p, df, conf.int=0.9, swc=0.5, plot=FALSE)
                p.value=p, conf.int=conf.int, swc=swc,
                mbiPositive=positive, mbiTrivial=trivial, mbiNegative=negative, inference=inference)
 }
+
+

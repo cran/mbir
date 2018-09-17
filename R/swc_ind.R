@@ -227,6 +227,7 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
   names(noway)<-c("Point"," ","Diff"," ","N","T","P"," ","MBI")
   cat("\n   MBI From Trend Line:\n\n")
   print(noway,row.names=F)
+  rval <- list(slope=table1[1], rsq=table1[2],fstat=table1[3],p.value=table1[4])
   }
 }
 

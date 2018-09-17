@@ -52,11 +52,23 @@ boot_test<-function(x,y,conf.int,resample, med){
 
   ci<-round(stats::quantile(Diff, c(interval, 1-interval),na.rm=T),digits = 3)
   print(ci)
-  if(unname(ci[1]) < med && unname(ci[2]) > med){cat("\nDifference in Medians: Lacking Evidence (CI contains ",med,").",sep = "")}
-  else {cat("\nDifference in Medians: Evidence Present (CI does not contain ",med,").",sep = "")}
+  if(unname(ci[1]) < med && unname(ci[2]) > med){
+    cat("\nDifference in Medians: Lacking Evidence (CI contains ",med,").",sep = "")
+    Inference <- "Lacking Evidence"}
+  else {
+    cat("\nDifference in Medians: Evidence Present (CI does not contain ",med,").",sep = "")
+    Inference <- "Evidence Present"}
 
   graphics::hist(Diff, col='gray', border='white', las=1, xlab = "Difference in Medians", main = " ")
   graphics::abline(v=med, lty=2)
   graphics::abline(v=c(unname(ci[1])))
   graphics::abline(v=unname(ci[2]))
+
+  invisible(list(
+    med = med,
+    med.diff = stats::median(Diff),
+    b.LL = unname(ci[1]),
+    b.UL = unname(ci[2]),
+    Inference = Inference)
+  )
 }

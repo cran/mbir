@@ -107,6 +107,7 @@ prop<-function(p1, n1, p2, n2, conf.int){
   if(abs(positive) >= 5 && abs(negative) > 5 || infer == 1){cat("Inference: Unclear Effect Size.")}
   else {cat("Inference:",infer3,mag,"Effect Size.",sep = " ")}
 
+  rval<-list(phi=phi)
 }
 
 

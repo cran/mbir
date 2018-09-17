@@ -70,4 +70,15 @@ ss_smd<-function(exp, con, es){
   dir<-ifelse(infer == 1,"Decrease.",ifelse(infer == 2, "Difference.",ifelse(infer == 3,"Increase.")))
   if(abs(positive) >= 5 && abs(negative) > 5){cat("Inference: Unclear Difference.")}
   else {cat("Inference:",infer2,mag,dir,sep = " ")}
+
+  Inference <-  ifelse(abs(positive) >= 5 && abs(negative) > 5,
+                       paste("Inference: Unclear Difference."),
+                       paste("Inference:", infer2, mag, dir, sep = " "))
+
+  invisible(list(
+    mbiNegative = negative,
+    mbiTrivial = trivial,
+    mbiPositive = positive,
+    Inference = Inference)
+  )
 }
