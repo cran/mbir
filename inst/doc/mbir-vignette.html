@@ -12,7 +12,7 @@
 
 <meta name="author" content="Kyle D. Peterson, Aaron Caldwell" />
 
-<meta name="date" content="2018-09-16" />
+<meta name="date" content="2019-01-22" />
 
 <title>Introduction to mbir</title>
 
@@ -70,7 +70,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to <code>mbir</code></h1>
 <h4 class="author"><em>Kyle D. Peterson, Aaron Caldwell</em></h4>
-<h4 class="date"><em>2018-09-16</em></h4>
+<h4 class="date"><em>2019-01-22</em></h4>
 
 
 
@@ -333,7 +333,7 @@ mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre
 ##    diff = -0.15
 ##    chi-sq = 1
 ##    90% CI [-0.37, 0.09]
-##    p value = 0.37
+##    p value = 0.36
 ## 
 ##    phi = 0.15
 ## 
@@ -493,9 +493,9 @@ mbir<span class="op">::</span><span class="kw">corr_diff</span>(<span class="dt"
 mag&lt;-mbir<span class="op">::</span><span class="kw">smd_test</span>(post, pre, <span class="dt">paired =</span> T, <span class="dt">auto =</span> T)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Wish to convert given Odds Ratio to Cohen's d:</span>
 mbir<span class="op">::</span><span class="kw">es_convert</span>(<span class="kw">c</span>(mag<span class="op">$</span>or.LL, mag<span class="op">$</span>or.stat, mag<span class="op">$</span>or.UL), <span class="dt">from =</span> <span class="st">&quot;or&quot;</span>, <span class="dt">to =</span> <span class="st">&quot;d&quot;</span>)</code></pre></div>
-<pre><code>## Effect Size Conversion
-## or = 1.15 1.53 2.05 
-## d = 0.08 0.23 0.4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Effect Size Conversion
+## or = 1.15 1.53 2.05
+## d = 0.08 0.23 0.4</code></pre></div>
 </div>
 <div id="boot_test" class="section level3">
 <h3>4.2 <code>boot_test()</code></h3>
@@ -522,10 +522,10 @@ mbir<span class="op">::</span><span class="kw">es_convert</span>(<span class="kw
 ## 10,000 Resamples
 ## 
 ##  5% 95% 
-##  60 224 
+##  69 224 
 ## 
 ## Difference in Medians: Lacking Evidence (CI contains 100).</code></pre>
-<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
 <p>The histogram illustrates the bootstrapped distribution of the resampled difference in medians. If the dashed line (<code>med</code>) is within the solid lines (confidence intervals), evidence of effect is absent. Conversely, if <code>med</code> is outside the confidence intervals, evidence of effect is present.</p>
 <p>Regarding the sRPE data set, surely an effect is present, but unfortunately the user can not definitively say there is a difference of 100 after resampling, as the 90% confidence interval contains 100 (dashed line between solid lines).</p>
 </div>

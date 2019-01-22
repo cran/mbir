@@ -19,6 +19,7 @@
 
 swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
 
+
   if(sum(x < 0) > 0){
     error<-"Sorry, positive values only."
     stop(error)
@@ -89,16 +90,34 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
   point2<-offset$diffn[-1]
   prev<-offset$x[1:length(offset$x)-1]
 
-  mod<-stats::lm(x~times)
-  sum.lm<-stats::summary.lm(mod)
-  pred<-stats::predict.lm(mod,newdata=1,se.fit = T,interval = "confidence")
+  X <- cbind(1, times)
+  colnames(X)[1] <- "Intercept"
+  y <- x
+  A <- base::solve(t(X) %*% X)
+  beta <- (A %*% t(X) %*% y)
+  slope <- beta[[2]]
+  resid <- (y - X %*% beta)
+  fit <- (y - resid)
+  residual_var <- base::sum(resid^2) / (length(x) - 1 - 1)
+  residual.scale <- sqrt(residual_var)
+  rss<-base::sum(resid^2)
+  mss <- base::sum((fit - mean(fit))^2)
+  r.squared <- mss/(mss + rss)
+  adj.r.squared <- 1 - (1 - r.squared) * ((length(x) - 1)/(length(x) - 1 - 1))
+  df.res <- (length(x) - 1 - 1)
+  beta_covar <- (residual_var * A)
+  beta_SE <- base::sqrt(base::diag(beta_covar))
+  T.stat <- slope/beta_SE
+  p.value <- 2 * stats::pt(-base::abs(T.stat), length(x)-2)
+  tha.p.value <- p.value[[2]]
+  f.val <- (mss/(1))/residual_var
 
-  trivband.plus<-mod$fitted.values+swc*mod$fitted.values/100+pred$residual.scale*sqrt((1/length(times))+(1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)
-  trivband.minus<-mod$fitted.values-swc*mod$fitted.values/100-pred$residual.scale*sqrt((1/length(times))+(1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)
+  trivband.plus<-fit+swc*fit/100+residual.scale*sqrt((1/length(times))+(1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)
+  trivband.minus<-fit-swc*fit/100-residual.scale*sqrt((1/length(times))+(1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)
 
 
   if(missing(te)){
-    te<-pred$residual.scale
+    te<-residual.scale
   } else {
     te<-te
     }
@@ -137,18 +156,18 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
 
   if(type == "trend"){
 
-  pred.err<-sqrt(te^2+pred$residual.scale^2*((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/sd(times)^2))
+  pred.err<-sqrt(te^2+residual.scale^2*((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/sd(times)^2))
 
-  degfree<-(pred$residual.scale^2*(((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)+(te*mod$fitted.values/100)^2)^2)/((pred$residual.scale^2*((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2))^2/(mean(times)-2)+(te*mod$fitted.values/100)^4/(mod$df.residual-1))
-  diff<-(x-mod$fitted.values)
-  diffo<-(mod$fitted.values-x)
+  degfree<-(residual.scale^2*(((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2)+(te*fit/100)^2)^2)/((residual.scale^2*((1/length(times)+1/(length(times)-1))*(times-mean(times))^2/stats::sd(times)^2))^2/(mean(times)-2)+(te*fit/100)^4/(df.res-1))
+  diff<-(x-fit)
+  diffo<-(fit-x)
 
   if(length(x) <= 8){
-  pos<-round(100*(ifelse(diff < 0,stats::pt(-abs((diff-(swc*mod$fitted.values/100))/sqrt(te/2^2+te/2^2)),degfree),1-stats::pt(-abs((diff-(swc*mod$fitted.values/100))/sqrt(te^2+te/2^2)),degfree))),0)
-  neg<-round(100*(ifelse(diff < 0,stats::pt(abs((diffo-(swc*mod$fitted.values/100))/sqrt(te/2^2+te/2^2)),degfree),1-stats::pt(abs((diffo-(swc*mod$fitted.values/100))/sqrt(te^2+te/2^2)),degfree))),0)
+  pos<-round(100*(ifelse(diff < 0,stats::pt(-abs((diff-(swc*fit/100))/sqrt(te/2^2+te/2^2)),degfree),1-stats::pt(-abs((diff-(swc*fit/100))/sqrt(te^2+te/2^2)),degfree))),0)
+  neg<-round(100*(ifelse(diff < 0,stats::pt(abs((diffo-(swc*fit/100))/sqrt(te/2^2+te/2^2)),degfree),1-stats::pt(abs((diffo-(swc*fit/100))/sqrt(te^2+te/2^2)),degfree))),0)
   } else {
-  pos<-round(100*(ifelse(diff < 0,stats::pt(-abs((diff-(swc*mod$fitted.values/100))/sqrt(pred$residual.scale^2+pred.err^2)),degfree),1-stats::pt(-abs((diff-(swc*mod$fitted.values/100))/sqrt(pred$residual.scale^2+pred.err^2)),degfree))),0)
-  neg<-round(100*(ifelse(diff < 0,stats::pt(abs((diffo-(swc*mod$fitted.values/100))/sqrt(pred$residual.scale^2+pred.err^2)),degfree),1-stats::pt(abs((diffo-(swc*mod$fitted.values/100))/sqrt(pred$residual.scale^2+pred.err^2)),degfree))),0)
+  pos<-round(100*(ifelse(diff < 0,stats::pt(-abs((diff-(swc*fit/100))/sqrt(residual.scale^2+pred.err^2)),degfree),1-stats::pt(-abs((diff-(swc*fit/100))/sqrt(residual.scale^2+pred.err^2)),degfree))),0)
+  neg<-round(100*(ifelse(diff < 0,stats::pt(abs((diffo-(swc*fit/100))/sqrt(residual.scale^2+pred.err^2)),degfree),1-stats::pt(abs((diffo-(swc*fit/100))/sqrt(residual.scale^2+pred.err^2)),degfree))),0)
   }
 
 
@@ -161,7 +180,7 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
   neg<-ifelse(triv < 0,abs(triv),neg)
   triv<-round(100-pos-neg,0)
 
-  diff<-round(x-mod$fitted.values,1)
+  diff<-round(x-fit,1)
   mbi<-ifelse(pos > 10 & neg > 10,"---",
               ifelse(neg <= 10 & pos <= 10,"Trivial",
               ifelse(neg > 10 & triv >= 10,"Possibly Lower",
@@ -172,23 +191,23 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
                                                  ifelse(pos >= 90 & neg <= 10," Very Likely Higher"," "))))))))
 
   cat("   Trend Parameters:")
-  table1<-matrix(c(round(unname(sum.lm$coefficients[2]),digits = 3),
-                   round(unname(sum.lm$adj.r.squared),digits=3),
-                   round(unname(sum.lm$fstatistic[1]),digits=3),
-                   round(unname(stats::pf(sum.lm$fstatistic[1], sum.lm$fstatistic[2], sum.lm$fstatistic[3], lower.tail=F)),digits = 3)),ncol =  1,byrow = T)
+  table1<-matrix(c(round(unname(slope),digits = 3),
+                   round(unname(adj.r.squared),digits=3),
+                   round(unname(f.val),digits=3),
+                   round(unname(tha.p.value),digits = 3)),ncol =  1,byrow = T)
   rownames(table1)<-c("Slope","R-squared","F stat","P value")
   colnames(table1)<-c(" ")
   print(table1)
   cat("\n")
-  diff2<-(unname(sum.lm$coefficients[2])-ts)
-  diff3<-(unname(-sum.lm$coefficients[2])-ts)
+  diff2<-(unname(slope)-ts)
+  diff3<-(unname(-slope)-ts)
 
-  if(ts < abs(sum.lm$coefficients[2])){
-  pos2<-round(100*ifelse(sum.lm$coefficients[2] > 0,stats::pt(abs((diff2)/sum.lm$coefficients[4]),mod$df.residual),1-stats::pt(abs((diff2)/sum.lm$coefficients[4]),mod$df.residual)),0)
-  neg2<-round(100*ifelse(sum.lm$coefficients[2] > 0,stats::pt(-abs((diff3)/sum.lm$coefficients[4]),mod$df.residual),1-stats::pt(-abs((diff3)/sum.lm$coefficients[4]),mod$df.residual)),0)
+  if(ts < abs(slope)){
+  pos2<-round(100*ifelse(slope > 0,stats::pt(abs((diff2)/tha.p.value),df.res),1-stats::pt(abs((diff2)/tha.p.value),df.res)),0)
+  neg2<-round(100*ifelse(slope > 0,stats::pt(-abs((diff3)/tha.p.value),df.res),1-stats::pt(-abs((diff3)/tha.p.value),df.res)),0)
   } else {
-    pos2<-round(100*ifelse(sum.lm$coefficients[2] > 0,1-stats::pt(abs((diff2)/sum.lm$coefficients[4]),mod$df.residual),stats::pt(abs((diff2)/sum.lm$coefficients[4]),mod$df.residual)),0)
-    neg2<-round(100*ifelse(sum.lm$coefficients[2] > 0,stats::pt(-abs((diff3)/sum.lm$coefficients[4]),mod$df.residual),1-stats::pt(abs((diff3)/sum.lm$coefficients[4]),mod$df.residual)),0)
+    pos2<-round(100*ifelse(slope > 0,1-stats::pt(abs((diff2)/tha.p.value),df.res),stats::pt(abs((diff2)/tha.p.value),df.res)),0)
+    neg2<-round(100*ifelse(slope > 0,stats::pt(-abs((diff3)/tha.p.value),df.res),1-stats::pt(abs((diff3)/tha.p.value),df.res)),0)
   }
 
 
@@ -219,7 +238,7 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
   colnames(table2)<-c(decrease,none,increase)
   print(table2)
   graphics::plot(times,x,ylim=range(c(x-yrange, x+yrange)),ylab = ylab,xlab=xlab,main=main,pch=19,type="b")
-  graphics::abline(sum.lm$coefficients[1],sum.lm$coefficients[2],col="red")
+  graphics::abline(beta[1],slope,col="red")
   graphics::lines(times,trivband.plus,lty=2)
   graphics::lines(times,trivband.minus,lty=2)
   graphics::arrows(times, x-te, times, x+te, length=0.05, angle=90, code=3)
@@ -230,4 +249,7 @@ swc_ind<-function(x, swc, type=c("previous","trend"), ts, te, main, xlab, ylab){
   rval <- list(slope=table1[1], rsq=table1[2],fstat=table1[3],p.value=table1[4])
   }
 }
+
+
+
 

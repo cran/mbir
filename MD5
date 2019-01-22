@@ -1,4 +1,4 @@
-1461e6c48fa2a03e03c144bb241663b0 *DESCRIPTION
+50dc81c468116859d36c6fae89f6daf7 *DESCRIPTION
 2d80622dddb94ba224d801ae5322d0a5 *NAMESPACE
 0399b8d31ef995098d84f2dec522866f *R/aipe_smd.R
 cdc41b618bddb7eac6a3b1b5d2ffea4f *R/boot_test.R
@@ -13,12 +13,12 @@ a54e9972d5842939b88d563c477c8ec9 *R/es_convert.R
 6075be96acaccb1aa4f027e85b83e5a4 *R/ss_corr.R
 03af221c99f5d500cfa13235f8d3f91e *R/ss_odds.R
 5b83b9c6edf41d23c7468b447d9f1958 *R/ss_smd.R
-446507c42b571a986bcb61b3c6987cdf *R/swc_ind.R
+cb0483d008d4af34e3f34d620cebf3d6 *R/swc_ind.R
 41ad7604cfab0695c1e5d5cb9910def2 *build/vignette.rds
 ff4fc44a8c455793550bb23af8c39923 *inst/COPYRIGHT
-86a547a876bfb1956a1f7a3ed0805981 *inst/doc/mbir-vignette.R
-04432d342dbe5bdb8848695954fd5f3f *inst/doc/mbir-vignette.Rmd
-655c0a729fac6a09a254f8d3e67ec85c *inst/doc/mbir-vignette.html
+ff937204bfd8f623fbb4ce820502f740 *inst/doc/mbir-vignette.R
+e55c26fee8a142c4aa4ec5fe4d83f550 *inst/doc/mbir-vignette.Rmd
+4a298be6c549425a1eb47e133bb37e74 *inst/doc/mbir-vignette.html
 b0d7b0b03063e282ed21712783de2577 *man/aipe_smd.Rd
 e570075abc60b0aa803dfab3fc45dc79 *man/boot_test.Rd
 2f8fb102c76ce5bfd52a24d23b2c6c9c *man/corr.Rd
@@ -36,5 +36,4 @@ bbdd143d44c41ec0480984e407d489c8 *man/ss_smd.Rd
 f652ce5e7dc988594bfe7fc92ac435b5 *vignettes/figures/swc_ind.jpeg
 602333d2e2de4cb350249162d7661906 *vignettes/figures/swc_prev.jpeg
 adf6f3104e81b9ebb8894c8d840213b9 *vignettes/figures/twosample.jpg
-04432d342dbe5bdb8848695954fd5f3f *vignettes/mbir-vignette.Rmd
-082f262d8b9b079931332bded989055c *vignettes/my-vignette.R
+e55c26fee8a142c4aa4ec5fe4d83f550 *vignettes/mbir-vignette.Rmd

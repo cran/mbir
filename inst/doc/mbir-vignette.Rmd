@@ -350,11 +350,16 @@ mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 # Wish to convert given Odds Ratio to Cohen's d:
 mbir::es_convert(c(mag$or.LL, mag$or.stat, mag$or.UL), from = "or", to = "d")
 ```
 
+```{r, eval=FALSE}
+## Effect Size Conversion
+## or = 1.15 1.53 2.05
+## d = 0.08 0.23 0.4
+```
 
 ### 4.2 `boot_test()`
 Perhaps a given data set does not follow a Gaussian distribution, or even after log-transformation there are still major outliers present. If this is the case, bootstrapping is an attractive alternative for deriving nonparametric confidence intervals via resampling, as it does not assume a distribution. The simple, yet exquisite, bootstrap procedure is as follows:

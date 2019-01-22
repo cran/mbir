@@ -82,9 +82,14 @@ mbir::es_convert(0.2, from = "r", to = "or")
 #  # Section 1.1. pre-test post-test 40 yard dash example:
 #  mag<-mbir::smd_test(post, pre, paired = T, auto = T)
 
-## ------------------------------------------------------------------------
-# Wish to convert given Odds Ratio to Cohen's d:
-mbir::es_convert(c(mag$or.LL, mag$or.stat, mag$or.UL), from = "or", to = "d")
+## ---- eval=FALSE---------------------------------------------------------
+#  # Wish to convert given Odds Ratio to Cohen's d:
+#  mbir::es_convert(c(mag$or.LL, mag$or.stat, mag$or.UL), from = "or", to = "d")
+
+## ---- eval=FALSE---------------------------------------------------------
+#  ## Effect Size Conversion
+#  ## or = 1.15 1.53 2.05
+#  ## d = 0.08 0.23 0.4
 
 ## ---- echo=FALSE---------------------------------------------------------
 high<-c(600,450,420,375,480,360,200,510,420,360,165,150,300,250,480,260,510,400,455,300,540,250,450,490,140,480,950,880,709,730,300)
