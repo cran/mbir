@@ -1,0 +1,134 @@
+---
+name:  dataMBInpind
+title: MBI for Independent Samples (non-parametric)
+jrs:   '1.1'
+
+items:
+    - name:  text
+      title: MBI for Mann-Whitney
+      type:  Preformatted
+      
+    - name:   ttest
+      title: Mann-Whitney U-Test
+      type:  Table
+      rows:  (deps)
+      columns:
+        - name: var
+          title: ''
+          type: text
+          content: ($key)  
+        - name: statistic
+          type: number
+        - name: p
+          type: number
+          format: zto,pvalue
+
+          
+    - name: effect
+      title: Effect Size
+      type:  Table
+      rows: (deps)
+      clearWith:
+        - confint
+        - SWC
+      columns:
+        - name: var
+          title: ''
+          type: text
+          content: ($key)
+        - name: r
+          type: number
+          title: Effect Size (r)
+        - name: rLL
+          type: number
+          title: Lower
+          superTitle: Confidence Interval
+        - name: rUL
+          type: number
+          title: Upper
+          superTitle: Confidence Interval
+          
+    - name:   mbi
+      title: Magnitude Based Inference
+      type:  Table
+      rows:  (deps)
+      columns:
+        - name: var
+          title: ''
+          type: text
+          content: ($key)
+        - name: negative
+          type: number
+          title: Negative
+          superTitle: MBI (%)
+        - name: trivial
+          type: number
+          title: Trivial
+          superTitle: MBI (%)
+        - name: positive
+          type: number
+          title: Positive
+          superTitle: MBI (%)
+        - name: inference
+          title: Inference
+          type: text
+    
+    
+    - name:   desc
+      title: Descriptives
+      type: Table
+      visible: (desc)
+      rows: (deps)
+      clearWith:
+        - group
+        
+      columns:
+        - name: name[1]
+          title: ""
+          type: text
+          
+        - name: n[1]
+          title: "N"
+          type: integer
+          
+        - name: m[1]
+          title: Mean
+          type: number
+          
+        - name: med[1]
+          title: Median
+          type: number
+          
+        - name: sd[1]
+          title: SD
+          type: number
+          
+        - name: se[1]
+          title: SE
+          type: number
+          
+        - name: name[2]
+          title: ""
+          type: text
+          
+        - name: n[2]
+          title: "N"
+          type: integer
+          
+        - name: m[2]
+          title: Mean
+          type: number
+          
+        - name: med[2]
+          title: Median
+          type: number
+          
+        - name: sd[2]
+          title: SD
+          type: number
+          
+        - name: se[2]
+          title: SE
+          type: number
+
+...

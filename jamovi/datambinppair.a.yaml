@@ -1,0 +1,93 @@
+---
+name:  dataMBInppair
+title: MBI for Paired Samples (non-parametric)
+menuGroup: mbir
+menuSubgroup: Non-Parametric
+menuTitle: MBI for Paired Samples
+menuSubtitle: Wilcoxon signed-rank test
+version: '1.0.0'
+jas: '1.1'
+
+description:
+  R:
+      usage: |
+        
+        data('bugs', package = 'jmv')
+        
+        mbir::dataMBInppair(
+          data = bugs,
+          pairs = list(
+            list(
+              i1="LDHF",
+              i2="LDLF")))
+
+        #  Wilcoxon signed-rank test               
+        #  ─────────────────────────────────────── 
+        #                    statistic    p        
+        #  ─────────────────────────────────────── 
+        #    LDHF    LDLF         2250    < .001   
+        #  ─────────────────────────────────────── 
+        # 
+        # 
+
+        #
+        #  Effect Size                                       
+        #  ───────────────────────────────────────────────── 
+        #                    Effect Size    Lower    Upper   
+        #  ───────────────────────────────────────────────── 
+        #    LDHF    LDLF          0.585    0.458    0.689   
+        #  ───────────────────────────────────────────────── 
+        # 
+        # 
+
+        #
+        #  Magnitude Based Inference                                                                 
+        #  ───────────────────────────────────────────────────────────────────────────────────────── 
+        #                    Negative    Trivial    Positive    Inference                            
+        #  ───────────────────────────────────────────────────────────────────────────────────────── 
+        #    LDHF    LDLF        0.00       0.00         100    Almost Certainly Large Effect Size   
+        #  ───────────────────────────────────────────────────────────────────────────────────────── 
+        # 
+        # 
+
+
+options:
+    - name: data
+      type: Data
+      description:
+          R: the data as a data frame
+
+    - name: pairs
+      title: Paired Variables
+      type: Pairs
+      suggested: [continuous]
+      permitted: [continuous, nominal, ordinal]
+      description:
+          R: a list of vectors of strings naming variables to pair from `data`
+      
+    - name: SWC
+      title: Smallest worthwhile change (effect size)
+      type: Number
+      min: 0
+      default: 0.5
+      description:
+          R: a number that defines the bounds for magnitude-based inference
+
+    - name: confint
+      title: Confidence Interval (%)
+      type: Number
+      min: 50.0
+      max: 99.9
+      default: 90
+      description:
+          R: >
+            90% (default), confidence interval for magnitude-based inference
+    
+    - name: desc
+      title: Descriptive statistics
+      type: Bool
+      default: false
+      description:
+          R: >
+            `TRUE` or `FALSE` (default), provide descriptive statistics
+...

@@ -1,0 +1,107 @@
+---
+name:  dataMBInpind
+title: MBI for Independent Samples (non-parametric)
+menuGroup: mbir
+menuSubgroup: Non-Parametric
+menuTitle: MBI for Independent Samples
+menuSubtitle: Mann-Whitney U test
+version: '1.0.0'
+jas: '1.1'
+
+
+description:
+  R:
+      usage: |
+      
+          data('bugs', package = 'jmv')
+          
+          mbir::dataMBInpind(
+          data = bugs,
+          deps = "LDLF",
+          group = "Gender")
+
+        #
+        #  Mann-Whitney U-Test            
+        #  ────────────────────────────── 
+        #            statistic    p       
+        #  ────────────────────────────── 
+        #    LDLF         1054    0.237   
+        #  ────────────────────────────── 
+        # 
+        # 
+
+        #
+        #  Effect Size                                     
+        #  ─────────────────────────────────────────────── 
+        #            Effect Size (r)    Lower      Upper   
+        #  ─────────────────────────────────────────────── 
+        #    LDLF              0.123    -0.0503    0.290   
+        #  ─────────────────────────────────────────────── 
+        # 
+        # 
+
+        #
+        #  Magnitude Based Inference                                                 
+        #  ───────────────────────────────────────────────────────────────────────── 
+        #            Negative    Trivial    Positive    Inference                    
+        #  ───────────────────────────────────────────────────────────────────────── 
+        #    LDLF        1.70       39.3        59.0    Possibly Small Effect Size   
+        #  ───────────────────────────────────────────────────────────────────────── 
+        # 
+        # 
+
+
+options:
+  - name: data
+    type: Data
+    description:
+        R: the data as a data frame
+        
+  - name: deps                  
+    title: Dependent Variables  
+    type: Variables            
+    suggested:
+      - continuous
+    permitted:
+      - continuous
+      - nominal
+      - ordinal
+    rejectInf: false
+    description:
+        R: a vector of strings naming the dependent variables  
+
+  - name: group
+    title: Grouping Variable
+    type: Variable
+    suggested:
+      - nominal
+      - ordinal
+    description:
+        R: a string naming the grouping variable, must have 2 levels
+        
+  - name: SWC
+    title: Smallest Worthwhile Change (effect size)
+    type: Number
+    min: 0
+    default: 0.5
+    description:
+        R: a number that defines the bounds for magnitude-based inference
+
+  - name: confint
+    title: Confidence Interval (%)
+    type: Number
+    min: 50.0
+    max: 99.9
+    default: 90
+    description:
+        R: >
+          90% (default) confidence intervals for effect sizes
+    
+  - name: desc
+    title: Descriptive statistics
+    type: Bool
+    default: false
+    description:
+        R: >
+          `TRUE` or `FALSE` (default), provide descriptive statistics 
+...

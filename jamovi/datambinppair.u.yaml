@@ -1,0 +1,55 @@
+title: MBI for non-parametric; paired samples
+name: dataMBInppair
+jus: '2.0'
+stage: 0
+compilerMode: tame
+children:
+  - type: VariableSupplier
+    suggested:
+      - continuous
+    permitted:
+      - continuous
+      - ordinal
+    persistentItems: true
+    stretchFactor: 1
+    children:
+      - type: TargetLayoutBox
+        label: Paired Variables
+        children:
+          - type: VariablesListBox
+            name: pairs
+            fullRowSelect: true
+            isTarget: true
+            columns:
+              - name: i1
+                stretchFactor: 1
+                template:
+                  type: VariableLabel
+              - name: i2
+                stretchFactor: 1
+                template:
+                  type: VariableLabel
+                  
+  - type: LayoutBox
+    margin: large
+    stretchFactor: 1
+    children:
+      - type: LayoutBox
+        cell:
+          column: 0
+          row: 0
+        stretchFactor: 1
+        children:
+          - type: Label
+            label: Options
+            children:
+            - type: TextBox
+              name: SWC
+              format: number
+              inputPattern: '[0-9]+'
+            - type: TextBox
+              name: confint
+              format: number
+              inputPattern: '[0-9]+'
+            - type: CheckBox
+              name: desc
